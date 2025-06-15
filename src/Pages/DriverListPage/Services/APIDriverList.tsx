@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GetDriverList } from "../../../Endpoints/endpointlist";
+import { GetDriverList } from "../../../API/endpointlist";
 
 export const getAllDrivers = async (): Promise<any> => {
   const response = await axios.get(GetDriverList);
