@@ -2,10 +2,35 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import type { Driver } from "./Interfaces/Driver";
 import { getAllDrivers } from "./Services/APIDriverList";
-import css from "./Style/DriverListTableStyle.module.css";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Typography } from "@mui/material";
 
 const AllDriversPage: React.FC = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    "&.MuiTableCell-head": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
+      fontWeight: "bold",
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
 
   useEffect(() => {
     const fetchAllDrivers = async (): Promise<void> => {
@@ -21,41 +46,61 @@ const AllDriversPage: React.FC = () => {
   }, []);
 
   return (
-    <div className={css.container}>
-      <h1>List of Drivers</h1>
-      <table className={css.table}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Birth Date</th>
-            <th>Nationality</th>
-            <th>Gender</th>
-            <th>Race Number</th>
-          </tr>
-        </thead>
-        <tbody>
-          {drivers.length === 0 ? (
-            <tr>
-              <td colSpan={7}>No drivers found.</td>
-            </tr>
-          ) : (
-            drivers.map((driver) => (
-              <tr key={driver.id}>
-                <td>{driver.id}</td>
-                <td>{driver.firstName}</td>
-                <td>{driver.lastName}</td>
-                <td>{new Date(driver.birthDate).toLocaleDateString()}</td>
-                <td>{driver.nationality}</td>
-                <td>{driver.gender}</td>
-                <td>{driver.raceNumber}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <Typography variant="h1"align="center">
+        List of Drivers
+      </Typography>
+
+      <TableContainer component={Paper} elevation={3}>
+        <Table sx={{ minWidth: 700 }} aria-label="drivers table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>ID</StyledTableCell>
+              <StyledTableCell align="right">First Name</StyledTableCell>
+              <StyledTableCell align="right">Last Name</StyledTableCell>
+              <StyledTableCell align="right">Birth Date</StyledTableCell>
+              <StyledTableCell align="right">Nationality</StyledTableCell>
+              <StyledTableCell align="right">Gender</StyledTableCell>
+              <StyledTableCell align="right">Race Number</StyledTableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {drivers.length === 0 ? (
+              <StyledTableRow>
+                <StyledTableCell colSpan={7} align="center">
+                  No drivers found.
+                </StyledTableCell>
+              </StyledTableRow>
+            ) : (
+              drivers.map((driver) => (
+                <StyledTableRow key={driver.id}>
+                  <StyledTableCell>{driver.id}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {driver.firstName}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {driver.lastName}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {new Date(driver.birthDate).toLocaleDateString()}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {driver.nationality}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {driver.gender}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {driver.raceNumber}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 
