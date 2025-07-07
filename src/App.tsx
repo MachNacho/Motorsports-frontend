@@ -2,11 +2,16 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import AllDriversPage from "./Pages/DriverListPage/AllDriversPage";
 import DriverProfilePage from "./Pages/DriverProfilePage/DriverProfilePage";
 import { Container } from "@mui/material";
+import ModelViewPage from "./Pages/ModelViewPage/ModelViewPage";
 
 function App() {
   return (
     <>
-      <Container>
+      <Container
+        maxWidth={false}
+        disableGutters
+        sx={{ width: "100vw", height: "100vh", padding: 0 }}
+      >
         <BrowserRouter>
           <Routes>
             <Route
@@ -25,7 +30,7 @@ function App() {
                 />
               }
             />
-            <Route path="/c"></Route>
+            <Route path="/c" element={<ModelViewPage />} />
             <Route path="/" element={<AllDriversPage />} />
           </Routes>
         </BrowserRouter>
