@@ -3,15 +3,15 @@ import AllDriversPage from "./Pages/DriverListPage/AllDriversPage";
 import DriverProfilePage from "./Pages/DriverProfilePage/DriverProfilePage";
 import { Container } from "@mui/material";
 import ModelViewPage from "./Pages/ModelViewPage/ModelViewPage";
+import { NavigationBar } from "./components/NavigationBar";
+import RegisterPage from "./Pages/RegisterPage/RegisterPage";
+import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
 
 function App() {
   return (
     <>
-      <Container
-        maxWidth={false}
-        disableGutters
-        sx={{ width: "100vw", height: "100vh", padding: 0 }}
-      >
+      <NavigationBar />
+      <Container maxWidth={false} disableGutters sx={{}}>
         <BrowserRouter>
           <Routes>
             <Route
@@ -30,8 +30,10 @@ function App() {
                 />
               }
             />
-            <Route path="/c" element={<ModelViewPage />} />
+            <Route path="/c" element={<RegisterPage />} />
             <Route path="/" element={<AllDriversPage />} />
+            <Route path="/d" element={<ModelViewPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </Container>

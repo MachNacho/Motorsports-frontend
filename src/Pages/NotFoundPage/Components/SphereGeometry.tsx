@@ -10,7 +10,7 @@ const SphereGeometry: React.FC<{
   const ref = useRef<Mesh>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const speed = isHovered ? 1 : 1;
     if (ref.current) {
       ref.current.position.y = Math.sin(state.clock.elapsedTime) * speed;
