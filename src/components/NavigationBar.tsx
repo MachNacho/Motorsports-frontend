@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Button, Toolbar } from "@mui/material";
 
 export function NavigationBar() {
   return (
@@ -14,28 +7,35 @@ export function NavigationBar() {
         <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Button
             variant="text"
-            href="/"
+            href="/Driver/List"
             key={"ss"}
             sx={{ my: 2, color: "white", display: "block" }}
           >
             All drivers
           </Button>
           <Button
-            href="/a"
+            href="/Driver/:driverId"
             key={"ss"}
             sx={{ my: 2, color: "white", display: "block" }}
           >
             A driver
           </Button>
           <Button
-            href="/c"
+            href="/Register"
             key={"ss"}
             sx={{ my: 2, color: "white", display: "block" }}
           >
             Sign up
           </Button>
           <Button
-            href="/d"
+            href="/Signin"
+            key={"ss"}
+            sx={{ my: 2, color: "white", display: "block" }}
+          >
+            Sign in
+          </Button>
+          <Button
+            href="/TrackModel"
             key={"ss"}
             sx={{ my: 2, color: "white", display: "block" }}
           >

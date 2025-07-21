@@ -2,7 +2,10 @@ import { useFrame } from "@react-three/fiber";
 import type React from "react";
 import { useRef, useState } from "react";
 import type { Mesh } from "three";
-import { Edges, MeshTransmissionMaterial } from "@react-three/drei";
+import {
+  Edges,
+  MeshTransmissionMaterial,
+} from "@react-three/drei";
 
 const CubeGeometry: React.FC<{
   position?: [number, number, number];
@@ -16,7 +19,7 @@ const CubeGeometry: React.FC<{
     const speed = isHovered ? 1 : 1;
     if (ref.current) {
       ref.current.position.y = Math.sin(state.clock.elapsedTime) * speed;
-      ref.current.rotation.y += delta;
+      ref.current.rotation.y += delta / 3;
       ref.current.rotation.x += delta;
     }
   });
@@ -30,7 +33,7 @@ const CubeGeometry: React.FC<{
     >
       <boxGeometry args={size} />
       <Edges linewidth={4} scale={1.1} color="white" />
-      <MeshTransmissionMaterial color={color} />
+      <MeshTransmissionMaterial color={color}  />
     </mesh>
   );
 };

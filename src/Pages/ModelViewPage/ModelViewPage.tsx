@@ -1,9 +1,9 @@
 import type React from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, PresentationControls } from "@react-three/drei";
 import ModelLoader from "./services/FBXModelLoader";
 import SectorDRSLoader from "./Components/SectorDRSLoader";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 const ModelViewPage: React.FC = () => {
   return (
@@ -15,11 +15,19 @@ const ModelViewPage: React.FC = () => {
       >
         Track viewer
       </Typography>
+      <Button>Sector 1</Button>
+      <Button>Sector 2</Button>
+      <Button>Sector 3</Button>
+      <Button>DRS</Button>
+
       <Canvas style={{ height: "80vh", outline: "SOLID" }}>
         <directionalLight position={[3, 8, 7]} intensity={0.5} />
         <ambientLight intensity={0.2} />
-        <ModelLoader filename={"monacoGP.fbx"} />
-        <SectorDRSLoader />
+        <PresentationControls global={true} speed={1.5} zoom={11.2} snap={true} >
+          <ModelLoader filename={"monacoGP.fbx"} />
+          <SectorDRSLoader />
+        </PresentationControls>
+
         <OrbitControls />
       </Canvas>
     </>

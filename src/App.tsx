@@ -6,16 +6,17 @@ import ModelViewPage from "./Pages/ModelViewPage/ModelViewPage";
 import { NavigationBar } from "./components/NavigationBar";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
+import SignInPage from "./Pages/SigninPage/SignInPage";
 
 function App() {
   return (
     <>
       <NavigationBar />
-      <Container maxWidth={false} disableGutters sx={{}}>
+      <Container maxWidth={false}>
         <BrowserRouter>
           <Routes>
             <Route
-              path="/a"
+              path="/Driver/:driverId"
               element={
                 <DriverProfilePage
                   driverId={"3117ef54-00d2-4ad4-962a-08ddac30ae06"}
@@ -30,10 +31,12 @@ function App() {
                 />
               }
             />
-            <Route path="/c" element={<RegisterPage />} />
-            <Route path="/" element={<AllDriversPage />} />
-            <Route path="/d" element={<ModelViewPage />} />
+            <Route path="/Register" element={<RegisterPage />} />
+            <Route path="/SignIn" element={<SignInPage />} />
+            <Route path="/Driver/List" element={<AllDriversPage />} />
+            <Route path="/TrackModel" element={<ModelViewPage />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="/" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </Container>
