@@ -1,0 +1,39 @@
+name: 🚀 CI - React TypeScript
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: 🔧 Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 📥 Checkout the repository
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      # 🛠 Set up Node.js environment
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      # 📦 Install dependencies
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      # 🧹 Lint the codebase
+      - name: 🧹 Run ESLint
+        run: npm run lint
+
+      # 🏗 Build the app
+      - name: 🏗 Build project
+        run: npm run build
+
+      # ✅ Run unit tests
+      - name: ✅ Run tests
+        run: npm test
