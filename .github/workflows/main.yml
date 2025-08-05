@@ -1,4 +1,4 @@
-name: CI - React TypeScript
+name: 🚀 CI - React TypeScript
 
 on:
   push:
@@ -8,32 +8,32 @@ on:
 
 jobs:
   build:
-
+    name: 🔧 Build & Test
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the code
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      # 📥 Checkout the repository
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
 
-    # Step 2: Set up Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
+      # 🛠 Set up Node.js environment
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    # Step 3: Install dependencies using npm or yarn
-    - name: Install dependencies
-      run: npm ci
+      # 📦 Install dependencies
+      - name: 📦 Install dependencies
+        run: npm ci
 
-    # Step 4: Run linter (adjust if you use a different command)
-    - name: Run ESLint
-      run: npm run lint
+      # 🧹 Lint the codebase
+      - name: 🧹 Run ESLint
+        run: npm run lint
 
-    # Step 5: Build the project
-    - name: Build project
-      run: npm run build
+      # 🏗 Build the app
+      - name: 🏗 Build project
+        run: npm run build
 
-    # Step 6: Run tests
-    - name: Run tests
-      run: npm test
+      # ✅ Run unit tests
+      - name: ✅ Run tests
+        run: npm test
