@@ -7,10 +7,19 @@ import { NavigationBar } from "./components/NavigationBar";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
 import SignInPage from "./Pages/SigninPage/SignInPage";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#04386bff",
+    },
+  },
+});
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <NavigationBar />
       <Container maxWidth={false}>
         <BrowserRouter>
@@ -40,7 +49,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </Container>
-    </>
+    </ThemeProvider>
   );
 }
 

@@ -1,19 +1,23 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import type { Driver } from "./Interfaces/Driver";
-import { getAllDrivers } from "./Services/APIDriverList";
+import { getAllDrivers, getNationalities } from "./Services/APIDriverList";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import DriverAddForm from "./Component/DriverAddForm";
+import type { Nations } from "./Interfaces/Nations";
 
 const AllDriversPage: React.FC = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [nations, setNations] = useState<Nations[]>([]);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     "&.MuiTableCell-head": {
@@ -36,7 +40,9 @@ const AllDriversPage: React.FC = () => {
     const fetchAllDrivers = async (): Promise<void> => {
       try {
         const data: Driver[] = await getAllDrivers();
+        const dataNations: Nations[] = await getNationalities();
         setDrivers(data);
+        setNations(dataNations);
       } catch (error) {
         console.error("Failed to fetch drivers:", error);
       }
@@ -47,10 +53,68 @@ const AllDriversPage: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h1"align="center">
+      <Typography variant="h1" align="center">
         List of Drivers
       </Typography>
-
+      <Button
+        fullWidth
+        variant="contained"
+        sx={{ mb: 2 }}
+        onClick={() => setIsModalOpen(true)}
+      >
+        Add driver
+      </Button>
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            p: 4,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 3,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            minWidth: 500,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <Typography variant="h6" align="center">
+            Add Driver Modal (to be implemented)
+          </Typography>
+          <DriverAddForm nationalities={nations} />
+          <Box>
+            <Button
+              variant="contained"
+              sx={{ mt: 2 }}
+              onClick={() => setIsModalOpen(false)}
+            >
+              Submit
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{ mt: 2, ml: 2 }}
+              onClick={() => setIsModalOpen(false)}
+            >
+              Reset
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{ mt: 2, ml: 2 }}
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
       <TableContainer component={Paper} elevation={3}>
         <Table sx={{ minWidth: 700 }} aria-label="drivers table">
           <TableHead>

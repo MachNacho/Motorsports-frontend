@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   Container,
   FormControl,
@@ -61,6 +62,14 @@ const SignInPage: React.FC = () => {
               variant="outlined"
             />
           </FormControl>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            onClick={() => console.log("Sign up button clicked")}
+          >
+            Sign up
+          </Button>
         </Box>
       </Card>
     </Container>
