@@ -1,6 +1,6 @@
 export interface DriverProfile {
   firstName: string;
-  middleName: any;
+  middleName: string;
   lastName: string;
   birthDate: string;
   gender: number;
@@ -10,7 +10,7 @@ export interface DriverProfile {
   teamID: string;
   team: Team;
   imageUrl: string;
-  description: any;
+  description: string;
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -22,8 +22,8 @@ export interface Nationality {
   code: string;
   continent: number;
   flagUrl: string;
-  driver: any[];
-  teams: any[];
+  driver: DriverProfile[];
+  teams: Team[];
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -34,8 +34,8 @@ export interface Team {
   teamName: string;
   yearFounded: string;
   nationalityID: string;
-  nationality: any;
-  drivers: any[];
+  nationality: Nationality;
+  drivers: DriverProfile[];
   id: string;
   createdAt: string;
   updatedAt: string;
