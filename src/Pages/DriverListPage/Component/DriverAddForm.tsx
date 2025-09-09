@@ -9,12 +9,28 @@ import {
   TextField,
 } from "@mui/material";
 import type { Nations } from "../Interfaces/Nations";
+import { UseFormRegister } from "react-hook-form";
+import type { DriverAddFormSchema } from "../schema";
 
 interface DriverAddFormProps {
   nationalities: Nations[];
+  register: UseFormRegister<DriverAddFormSchema>;
 }
 
-const DriverAddForm: React.FC<DriverAddFormProps> = ({ nationalities }) => {
+export interface DriverFormData {
+  driverFName: string;
+  driverLName: string;
+  driverMName: string;
+  driverGender: string;
+  driverNationality: string;
+  driverTeam: string;
+  driverDescription: string;
+}
+
+const DriverAddForm: React.FC<DriverAddFormProps> = ({
+  nationalities,
+  register,
+}) => {
   return (
     <Box
       sx={{
@@ -24,33 +40,31 @@ const DriverAddForm: React.FC<DriverAddFormProps> = ({ nationalities }) => {
       }}
     >
       <FormControl>
-        <FormLabel htmlFor="driverFName">Firstname</FormLabel>
-        <TextField name="driverFName" required id="driverFName" />
+        <FormLabel>Firstname</FormLabel>
+        <TextField {...register("driverFName")} />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>Lastname</FormLabel>
+        <TextField {...register("driverLName")} />
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="driverLName">Lastname</FormLabel>
-        <TextField name="driverLName" required id="driverLName" />
+        <FormLabel>Middle name</FormLabel>
+        <TextField {...register("driverMName")} />
       </FormControl>
+
       <FormControl>
-        <FormLabel htmlFor="driverMName">Middle name</FormLabel>
-        <TextField name="driverMName" required id="driverMName" />
-      </FormControl>
-      <FormControl>
-        <FormLabel htmlFor="driverGender">Gender</FormLabel>
-        <RadioGroup name="driverGender" row>
+        <FormLabel>Gender</FormLabel>
+        <RadioGroup {...register('driverGender')}  row>
           <FormControlLabel value="0" control={<Radio />} label="Female" />
           <FormControlLabel value="1" control={<Radio />} label="Male" />
           <FormControlLabel value="2" control={<Radio />} label="Other" />
         </RadioGroup>
       </FormControl>
+
       <FormControl>
-        <FormLabel htmlFor="driverNationality">Nation</FormLabel>
-        <TextField
-          name="driverNationality"
-          required
-          id="driverNationality"
-          select
-        >
+        <FormLabel>Nation</FormLabel>
+        <TextField {...register("driverNationality")} select>
           {nationalities.map((nation) => (
             <MenuItem key={nation.code} value={nation.code}>
               {nation.name} - {nation.continent}
@@ -58,16 +72,18 @@ const DriverAddForm: React.FC<DriverAddFormProps> = ({ nationalities }) => {
           ))}
         </TextField>
       </FormControl>
+
       <FormControl>
-        <FormLabel htmlFor="driverTeam">Team</FormLabel>
-        <TextField name="driverTeam" required id="driverTeam" select>
+        <FormLabel>Team</FormLabel>
+        <TextField {...register("driverTeam")} select>
           <MenuItem value="1">Team 1</MenuItem>
           <MenuItem value="2">Team 2</MenuItem>
         </TextField>
       </FormControl>
+
       <FormControl>
-        <FormLabel htmlFor="driverDescription">Description</FormLabel>
-        <TextField id="driverDescription" name="driverDescription" multiline />
+        <FormLabel>Description</FormLabel>
+        <TextField {...register("driverDescription")} multiline />
       </FormControl>
     </Box>
   );

@@ -41,3 +41,17 @@ export interface Team {
   updatedAt: string;
   isActive: boolean;
 }
+export interface Driverprofileinterface {
+  id: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  gender: string;
+  raceNumber: number;
+  nationID: string;
+  nationName: string;
+  continent: string;
+  nationCode: string;
+  teamID: string;
+  teamnNme: string;
+}

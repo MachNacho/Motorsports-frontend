@@ -24,22 +24,7 @@ function App() {
       <Container maxWidth={false}>
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/Driver/:driverId"
-              element={
-                <DriverProfilePage
-                  driverId={"3117ef54-00d2-4ad4-962a-08ddac30ae06"}
-                />
-              }
-            />
-            <Route
-              path="/B"
-              element={
-                <DriverProfilePage
-                  driverId={"72a5abe3-79d4-4424-9629-08ddac30ae06"}
-                />
-              }
-            />
+            <Route path="/Driver/:ID" element={<DriverProfilePage />} />
             <Route path="/Register" element={<RegisterPage />} />
             <Route path="/SignIn" element={<SignInPage />} />
             <Route path="/Driver/List" element={<AllDriversPage />} />

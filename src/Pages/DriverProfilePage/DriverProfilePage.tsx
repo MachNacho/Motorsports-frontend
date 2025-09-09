@@ -11,21 +11,25 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { GetDriverProfile } from "./Services/APIDriverProfile";
-import type { DriverProfile } from "./Services/Interface/DriverProfile";
+import type { Driverprofileinterface } from "./Services/Interface/DriverProfile";
+import { useParams } from "react-router-dom";
 
 /**
  * Profile view for a single driver.
  * Fetches the profile by `driverId` and shows it in a Material‑UI card.
  */
-const DriverProfilePage: React.FC<{ driverId: string }> = ({ driverId }) => {
-  const [driver, setDriver] = useState<DriverProfile | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
 
+const DriverProfilePage: React.FC = () => {
+  const [driver, setDriver] = useState<Driverprofileinterface | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { ID } = useParams<{ ID: string }>();
   useEffect(() => {
     const fetchDriverProfile = async (): Promise<void> => {
       try {
-        const data = await GetDriverProfile(driverId);
-        setDriver(data);
+        if (ID) {
+          const data = await GetDriverProfile(ID);
+          setDriver(data);
+        }
       } catch (error) {
         console.error("Failed to fetch driver:", error);
       } finally {
@@ -34,7 +38,7 @@ const DriverProfilePage: React.FC<{ driverId: string }> = ({ driverId }) => {
     };
 
     fetchDriverProfile();
-  }, [driverId]);
+  }, [ID]);
 
   // --------------------------- UI states -----------------------------------
   if (loading) {
@@ -47,7 +51,11 @@ const DriverProfilePage: React.FC<{ driverId: string }> = ({ driverId }) => {
 
   if (!driver) {
     return (
-      <Typography variant="h6" color="error" sx={{ mt: 4, textAlign: "center" }}>
+      <Typography
+        variant="h6"
+        color="error"
+        sx={{ mt: 4, textAlign: "center" }}
+      >
         Driver not found.
       </Typography>
     );
@@ -69,7 +77,7 @@ const DriverProfilePage: React.FC<{ driverId: string }> = ({ driverId }) => {
 
       <CardContent>
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          Nationality: {driver.nationality.name}
+          Nationality: {driver.nationName} ({driver.nationCode})
         </Typography>
         <Typography variant="body2" color="text.secondary" gutterBottom>
           Date of Birth: {new Date(driver.birthDate).toLocaleDateString()}
@@ -78,16 +86,12 @@ const DriverProfilePage: React.FC<{ driverId: string }> = ({ driverId }) => {
           Gender: {driver.gender}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Team: {driver.team.teamName}
+          Team: {driver.teamnNme}
         </Typography>
       </CardContent>
 
       <CardActions>
-        <Button
-          variant="contained"
-          size="small"
-          disableElevation
-        >
+        <Button variant="contained" size="small" disableElevation>
           View Stats
         </Button>
       </CardActions>

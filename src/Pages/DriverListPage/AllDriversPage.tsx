@@ -13,11 +13,23 @@ import Paper from "@mui/material/Paper";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import DriverAddForm from "./Component/DriverAddForm";
 import type { Nations } from "./Interfaces/Nations";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { driverAddFormSchema, DriverAddFormSchema } from "./schema";
 
 const AllDriversPage: React.FC = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nations, setNations] = useState<Nations[]>([]);
+  const navigation = useNavigate();
+
+  const {
+    register,
+    formState: { errors },
+  } = useForm<DriverAddFormSchema>({
+    resolver: zodResolver(driverAddFormSchema),
+  });
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     "&.MuiTableCell-head": {
@@ -69,6 +81,7 @@ const AllDriversPage: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        keepMounted
       >
         <Box
           sx={{
@@ -89,26 +102,30 @@ const AllDriversPage: React.FC = () => {
           <Typography variant="h6" align="center">
             Add Driver Modal (to be implemented)
           </Typography>
-          <DriverAddForm nationalities={nations} />
+
+            <DriverAddForm nationalities={nations} register={register} />
+
+
           <Box>
             <Button
               variant="contained"
               sx={{ mt: 2 }}
-              onClick={() => setIsModalOpen(false)}
+              //onClick={}
             >
               Submit
             </Button>
             <Button
               variant="outlined"
+              color="secondary"
               sx={{ mt: 2, ml: 2 }}
-              onClick={() => setIsModalOpen(false)}
+              // onClick={}
             >
               Reset
             </Button>
             <Button
               variant="outlined"
               sx={{ mt: 2, ml: 2 }}
-              onClick={() => setIsModalOpen(false)}
+              //onClick={}
             >
               Cancel
             </Button>
@@ -126,6 +143,7 @@ const AllDriversPage: React.FC = () => {
               <StyledTableCell align="right">Nationality</StyledTableCell>
               <StyledTableCell align="right">Gender</StyledTableCell>
               <StyledTableCell align="right">Race Number</StyledTableCell>
+              <StyledTableCell align="right">Button</StyledTableCell>
             </TableRow>
           </TableHead>
 
@@ -157,6 +175,14 @@ const AllDriversPage: React.FC = () => {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {driver.raceNumber}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Button
+                      variant="contained"
+                      onClick={() => navigation(`/Driver/${driver.id}`)}
+                    >
+                      Profile
+                    </Button>
                   </StyledTableCell>
                 </StyledTableRow>
               ))

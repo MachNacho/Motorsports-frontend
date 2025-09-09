@@ -13,13 +13,13 @@ export function NavigationBar() {
           >
             All drivers
           </Button>
-          <Button
+          {/* <Button
             href="/Driver/:driverId"
             key={"ss"}
             sx={{ my: 2, color: "white", display: "block" }}
           >
             A driver
-          </Button>
+          </Button> */}
           <Button
             href="/Register"
             key={"ss"}
