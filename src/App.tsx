@@ -15,13 +15,16 @@ const theme = createTheme({
       main: "#04386bff",
     },
   },
+  typography: {
+    fontFamily: "Formula1",
+  },
 });
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationBar />
-      <Container maxWidth={false}>
+      <Container maxWidth="xl">
         <BrowserRouter>
           <Routes>
             <Route path="/Driver/:ID" element={<DriverProfilePage />} />

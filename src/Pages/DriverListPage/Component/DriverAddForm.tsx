@@ -6,15 +6,20 @@ import {
   MenuItem,
   Radio,
   RadioGroup,
+  Select,
   TextField,
 } from "@mui/material";
 import type { Nations } from "../Interfaces/Nations";
-import { UseFormRegister } from "react-hook-form";
+import type { Control, UseFormRegister } from "react-hook-form";
 import type { DriverAddFormSchema } from "../schema";
+import type { Team } from "../Interfaces/Team";
+import { Controller } from "react-hook-form";
 
 interface DriverAddFormProps {
   nationalities: Nations[];
+  teams: Team[];
   register: UseFormRegister<DriverAddFormSchema>;
+  control: Control<DriverAddFormSchema>;
 }
 
 export interface DriverFormData {
@@ -29,7 +34,9 @@ export interface DriverFormData {
 
 const DriverAddForm: React.FC<DriverAddFormProps> = ({
   nationalities,
+  teams,
   register,
+  control,
 }) => {
   return (
     <Box
@@ -55,30 +62,40 @@ const DriverAddForm: React.FC<DriverAddFormProps> = ({
 
       <FormControl>
         <FormLabel>Gender</FormLabel>
-        <RadioGroup {...register('driverGender')}  row>
-          <FormControlLabel value="0" control={<Radio />} label="Female" />
-          <FormControlLabel value="1" control={<Radio />} label="Male" />
-          <FormControlLabel value="2" control={<Radio />} label="Other" />
-        </RadioGroup>
+        <Controller
+          name="driverGender"
+          control={control}
+          defaultValue="0"
+          render={({ field }) => (
+            <RadioGroup {...field} row>
+              <FormControlLabel value="0" control={<Radio />} label="Female" />
+              <FormControlLabel value="1" control={<Radio />} label="Male" />
+              <FormControlLabel value="2" control={<Radio />} label="Other" />
+            </RadioGroup>
+          )}
+        />
       </FormControl>
 
       <FormControl>
         <FormLabel>Nation</FormLabel>
-        <TextField {...register("driverNationality")} select>
+        <Select {...register("driverNationality")}>
           {nationalities.map((nation) => (
             <MenuItem key={nation.code} value={nation.code}>
               {nation.name} - {nation.continent}
             </MenuItem>
           ))}
-        </TextField>
+        </Select>
       </FormControl>
 
       <FormControl>
         <FormLabel>Team</FormLabel>
-        <TextField {...register("driverTeam")} select>
-          <MenuItem value="1">Team 1</MenuItem>
-          <MenuItem value="2">Team 2</MenuItem>
-        </TextField>
+        <Select {...register("driverTeam")}>
+          {teams.map((team) => (
+            <MenuItem key={team.id} value={team.id}>
+              {team.name}
+            </MenuItem>
+          ))}
+        </Select>
       </FormControl>
 
       <FormControl>

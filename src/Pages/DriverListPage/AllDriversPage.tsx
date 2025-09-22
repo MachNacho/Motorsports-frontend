@@ -7,7 +7,6 @@ import {
   getTeams,
 } from "./Services/APIDriverList";
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -24,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { driverAddFormSchema, type DriverAddFormSchema } from "./schema";
 import type { Team } from "./Interfaces/Team";
 import { getFlagFromName } from "../../utils/CountryFlagUtil";
-
+import { getRandomDriverPhoto } from "../../utils/PhotoAssigner";
 const AllDriversPage: React.FC = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,10 +31,11 @@ const AllDriversPage: React.FC = () => {
   const [teams, setTeams] = useState<Team[]>([]);
   const navigation = useNavigate();
 
-  const { register, watch, handleSubmit } = useForm<DriverAddFormSchema>({
-    resolver: zodResolver(driverAddFormSchema),
-  });
-
+  const { register, handleSubmit, reset, watch, control } =
+    useForm<DriverAddFormSchema>({
+      resolver: zodResolver(driverAddFormSchema),
+    });
+  console.log(watch("driverGender"));
   const onSubmit: SubmitHandler<DriverAddFormSchema> = (data) =>
     console.log(data);
 
@@ -60,7 +60,7 @@ const AllDriversPage: React.FC = () => {
   return (
     <>
       <Typography variant="h1" align="center">
-        List of Drivers
+        Drivers {new Date().getFullYear()}
       </Typography>
       <Button
         fullWidth
@@ -102,6 +102,7 @@ const AllDriversPage: React.FC = () => {
               nationalities={nations}
               teams={teams}
               register={register}
+              control={control}
             />
             <Box>
               <Button type="submit" variant="contained" sx={{ mt: 2 }}>
@@ -111,14 +112,14 @@ const AllDriversPage: React.FC = () => {
                 variant="outlined"
                 color="secondary"
                 sx={{ mt: 2, ml: 2 }}
-                // onClick={}
+                onClick={() => reset()}
               >
                 Reset
               </Button>
               <Button
                 variant="outlined"
                 sx={{ mt: 2, ml: 2 }}
-                //onClick={}
+                onClick={() => setIsModalOpen(false)}
               >
                 Cancel
               </Button>
@@ -131,49 +132,58 @@ const AllDriversPage: React.FC = () => {
           display: "flex",
           alignItems: "stretch",
           flexWrap: "wrap",
-          justifyContent: "space-between",
-          gap: 1.5,
+          justifyContent: "left",
+          gap: 3.75,
         }}
       >
         {drivers.length === 0 ? (
           <Typography variant="h1">No results</Typography>
         ) : (
           drivers.map((driver) => (
-            <Card sx={{ width: 476, height: 256, backgroundColor: "gray" }}>
-              <CardContent>
-                <Box
-                  //Driver name and Avatar
-                  sx={{
-                    display: "flex",
-                    overflow: "auto",
-                    gap: 1.5,
-                    alignItems: "Baseline",
-                  }}
-                >
-                  <Avatar sx={{ background: "blue" }}>
-                    {driver.firstName.charAt(0)}
-                    {driver.lastName.charAt(0)}
-                  </Avatar>
-                  <Typography gutterBottom variant="h5">
-                    {driver.firstName} {driver.lastName}
-                  </Typography>
-                </Box>
-                <Grid container spacing={2}>
-                  <Grid size={8}>
-                    <Typography variant="h6">{driver.teamName}</Typography>
+            <Box
+              onClick={() => navigation(`/Driver/${driver.id}`)}
+              sx={{ cursor: "pointer" }}
+            >
+              <Card sx={{ width: 476, height: 256, bgcolor: "#43547c1a" }}>
+                <CardContent>
+                  <Grid container spacing={2}>
+                    {/* Left */}
+                    <Grid size={7}>
+                      <Typography variant="h4">{driver.firstName}</Typography>
+                      <Typography variant="h4" fontWeight="bold">
+                        {driver.lastName}
+                      </Typography>
+                      <Typography> {driver.teamName}</Typography>
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          fontStyle: "italic",
+                          fontSize: 20,
+                        }}
+                      >
+                        # {driver.raceNumber}
+                      </Typography>
+                      <Box sx={{}}>
+                        <img
+                          src={getFlagFromName(driver.nationality)}
+                          alt={driver.nationality}
+                        />
+                      </Box>
+                    </Grid>
+                    {/* Left */}
+                    <Grid size={5}>
+                      <Box alignContent={"center"}>
+                        <img
+                          src={getRandomDriverPhoto(driver.gender)}
+                          alt={driver.firstName}
+                          width={200}
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
-                  <Grid size={4}># {driver.raceNumber}</Grid>
-                  <Grid size={8}>
-                    <img src={getFlagFromName(driver.nationality)} alt={driver.nationality} />
-                    {driver.nationality}
-                  </Grid>
-                  <Grid size={4}>{driver.birthDate}</Grid>
-                </Grid>
-                <Button onClick={() => navigation(`/Driver/${driver.id}`)}>
-                  Profile
-                </Button>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Box>
           ))
         )}
       </Box>

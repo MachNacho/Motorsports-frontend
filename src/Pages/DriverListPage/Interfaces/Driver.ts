@@ -6,4 +6,5 @@ export interface Driver {
   nationality: string;
   gender: string;
   raceNumber: number;
+  teamName: string;
 }

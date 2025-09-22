@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Avatar,
   Typography,
-  Button,
   Grid,
   CircularProgress,
+  Stack,
+  Box,
 } from "@mui/material";
 import { GetDriverProfile } from "./Services/APIDriverProfile";
 import type { Driverprofileinterface } from "./Services/Interface/DriverProfile";
@@ -63,39 +59,19 @@ const DriverProfilePage: React.FC = () => {
 
   // --------------------------- Profile Card --------------------------------
   return (
-    <Card sx={{ maxWidth: 500, mx: "auto", mt: 4, p: 2 }} elevation={3}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: "primary.main" }}>
-            {driver.firstName?.[0]}
-            {driver.lastName?.[0]}
-          </Avatar>
-        }
-        title={`${driver.firstName} ${driver.lastName}`}
-        subheader={`Race #${driver.raceNumber}`}
-      />
-
-      <CardContent>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Nationality: {driver.nationName} ({driver.nationCode})
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Date of Birth: {new Date(driver.birthDate).toLocaleDateString()}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Gender: {driver.gender}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Team: {driver.teamnNme}
-        </Typography>
-      </CardContent>
-
-      <CardActions>
-        <Button variant="contained" size="small" disableElevation>
-          View Stats
-        </Button>
-      </CardActions>
-    </Card>
+    <>
+      <Stack
+        direction="column"
+        spacing={0}
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Box bgcolor={"red"}>dfffffffffffffffffffff</Box>
+        <Box bgcolor={"yellow"}>sffffffffffffffffffffffffffffff</Box>
+      </Stack>
+    </>
   );
 };
 

@@ -1,7 +1,12 @@
 import axios from "axios";
-import { GetDriverList, GetNationalityList } from "../../../API/endpointlist";
+import {
+  GetDriverList,
+  GetNationalityList,
+  GetTeamList,
+} from "../../../API/endpointlist";
 import type { Driver } from "../Interfaces/Driver";
 import type { Nations } from "../Interfaces/Nations";
+import type { Team } from "../Interfaces/Team";
 
 export const getAllDrivers = async (): Promise<Driver[]> => {
   const response = await axios.get(GetDriverList);
@@ -10,5 +15,10 @@ export const getAllDrivers = async (): Promise<Driver[]> => {
 
 export const getNationalities = async (): Promise<Nations[]> => {
   const response = await axios.get(GetNationalityList);
+  return response.data;
+};
+
+export const getTeams = async (): Promise<Team[]> => {
+  const response = await axios.get(GetTeamList);
   return response.data;
 };
