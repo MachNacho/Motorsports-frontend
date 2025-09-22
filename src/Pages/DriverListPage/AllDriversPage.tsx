@@ -1,60 +1,54 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import type { Driver } from "./Interfaces/Driver";
-import { getAllDrivers, getNationalities } from "./Services/APIDriverList";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import {
+  getAllDrivers,
+  getNationalities,
+  getTeams,
+} from "./Services/APIDriverList";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Modal,
+  Typography,
+} from "@mui/material";
 import DriverAddForm from "./Component/DriverAddForm";
 import type { Nations } from "./Interfaces/Nations";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { driverAddFormSchema, DriverAddFormSchema } from "./schema";
+import { driverAddFormSchema, type DriverAddFormSchema } from "./schema";
+import type { Team } from "./Interfaces/Team";
+import { getFlagFromName } from "../../utils/CountryFlagUtil";
 
 const AllDriversPage: React.FC = () => {
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nations, setNations] = useState<Nations[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const navigation = useNavigate();
 
-  const {
-    register,
-    formState: { errors },
-  } = useForm<DriverAddFormSchema>({
+  const { register, watch, handleSubmit } = useForm<DriverAddFormSchema>({
     resolver: zodResolver(driverAddFormSchema),
   });
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    "&.MuiTableCell-head": {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.common.white,
-      fontWeight: "bold",
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
+  const onSubmit: SubmitHandler<DriverAddFormSchema> = (data) =>
+    console.log(data);
 
   useEffect(() => {
     const fetchAllDrivers = async (): Promise<void> => {
       try {
         const data: Driver[] = await getAllDrivers();
         const dataNations: Nations[] = await getNationalities();
+        const dataTeams: Team[] = await getTeams();
+
         setDrivers(data);
         setNations(dataNations);
+        setTeams(dataTeams);
       } catch (error) {
         console.error("Failed to fetch drivers:", error);
       }
@@ -103,93 +97,86 @@ const AllDriversPage: React.FC = () => {
             Add Driver Modal (to be implemented)
           </Typography>
 
-            <DriverAddForm nationalities={nations} register={register} />
-
-
-          <Box>
-            <Button
-              variant="contained"
-              sx={{ mt: 2 }}
-              //onClick={}
-            >
-              Submit
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              sx={{ mt: 2, ml: 2 }}
-              // onClick={}
-            >
-              Reset
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{ mt: 2, ml: 2 }}
-              //onClick={}
-            >
-              Cancel
-            </Button>
-          </Box>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <DriverAddForm
+              nationalities={nations}
+              teams={teams}
+              register={register}
+            />
+            <Box>
+              <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+                Submit
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ mt: 2, ml: 2 }}
+                // onClick={}
+              >
+                Reset
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{ mt: 2, ml: 2 }}
+                //onClick={}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </form>
         </Box>
       </Modal>
-      <TableContainer component={Paper} elevation={3}>
-        <Table sx={{ minWidth: 700 }} aria-label="drivers table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell align="right">First Name</StyledTableCell>
-              <StyledTableCell align="right">Last Name</StyledTableCell>
-              <StyledTableCell align="right">Birth Date</StyledTableCell>
-              <StyledTableCell align="right">Nationality</StyledTableCell>
-              <StyledTableCell align="right">Gender</StyledTableCell>
-              <StyledTableCell align="right">Race Number</StyledTableCell>
-              <StyledTableCell align="right">Button</StyledTableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {drivers.length === 0 ? (
-              <StyledTableRow>
-                <StyledTableCell colSpan={7} align="center">
-                  No drivers found.
-                </StyledTableCell>
-              </StyledTableRow>
-            ) : (
-              drivers.map((driver) => (
-                <StyledTableRow key={driver.id}>
-                  <StyledTableCell>{driver.id}</StyledTableCell>
-                  <StyledTableCell align="right">
-                    {driver.firstName}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {driver.lastName}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {new Date(driver.birthDate).toLocaleDateString()}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "stretch",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          gap: 1.5,
+        }}
+      >
+        {drivers.length === 0 ? (
+          <Typography variant="h1">No results</Typography>
+        ) : (
+          drivers.map((driver) => (
+            <Card sx={{ width: 476, height: 256, backgroundColor: "gray" }}>
+              <CardContent>
+                <Box
+                  //Driver name and Avatar
+                  sx={{
+                    display: "flex",
+                    overflow: "auto",
+                    gap: 1.5,
+                    alignItems: "Baseline",
+                  }}
+                >
+                  <Avatar sx={{ background: "blue" }}>
+                    {driver.firstName.charAt(0)}
+                    {driver.lastName.charAt(0)}
+                  </Avatar>
+                  <Typography gutterBottom variant="h5">
+                    {driver.firstName} {driver.lastName}
+                  </Typography>
+                </Box>
+                <Grid container spacing={2}>
+                  <Grid size={8}>
+                    <Typography variant="h6">{driver.teamName}</Typography>
+                  </Grid>
+                  <Grid size={4}># {driver.raceNumber}</Grid>
+                  <Grid size={8}>
+                    <img src={getFlagFromName(driver.nationality)} alt={driver.nationality} />
                     {driver.nationality}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {driver.gender}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {driver.raceNumber}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <Button
-                      variant="contained"
-                      onClick={() => navigation(`/Driver/${driver.id}`)}
-                    >
-                      Profile
-                    </Button>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  </Grid>
+                  <Grid size={4}>{driver.birthDate}</Grid>
+                </Grid>
+                <Button onClick={() => navigation(`/Driver/${driver.id}`)}>
+                  Profile
+                </Button>
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </Box>
     </>
   );
 };
