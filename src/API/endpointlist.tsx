@@ -1,14 +1,34 @@
-const BaseURL = "https://localhost:7016";
+// Base URL
+const BASE_URL = "https://localhost:7016";
 
-export const GetDriverList = `${BaseURL}/api/Driver/list/drivers`;
-export const GetNationalityList = `${BaseURL}/api/Nationality/list`;
-export const GetTeamList = `${BaseURL}/api/Team`;
+// Generic helper to build endpoints safely
+const buildEndpoint = (path: string): string => `${BASE_URL}${path}`;
 
-export function getdriverbyid(id: string): string {
-  return `${BaseURL}/api/Driver/${id}`;
-}
+// Driver endpoints
+export const DriverEndpoints = {
+  getAll: buildEndpoint("/api/Drivers"),
+  add: buildEndpoint("/api/Drivers/add"),
+  getById: (id: string) => buildEndpoint(`/api/Drivers/driver/${id}`),
+  updateById: (id: string) => buildEndpoint(`/api/Drivers/update/${id}`),
+  deleteById: (id: string) => buildEndpoint(`/api/Drivers/delete/${id}`),
+};
 
-//Account Endpoints
-export const loginUserEndpoint = `${BaseURL}/api/Account/Login`;
-export const registerUser = `${BaseURL}/api/Account/Register`;
-//Get user details rndpoit
+// Team endpoints
+export const TeamEndpoints = {
+  getAll: buildEndpoint("/api/Teams"),
+  add: buildEndpoint("/api/Teams/add"),
+  getById: (id: string) => buildEndpoint(`/api/Teams/team/${id}`),
+  updateById: (id: string) => buildEndpoint(`/api/Teams/update/${id}`),
+  deleteById: (id: string) => buildEndpoint(`/api/Teams/delete/${id}`),
+};
+
+// Nationality endpoints
+export const NationalityEndpoints = {
+  getAll: buildEndpoint("/api/Nationality"),
+};
+
+// Account endpoints
+export const AccountEndpoints = {
+  login: buildEndpoint("/api/Account/Login"),
+  register: buildEndpoint("/api/Account/Register"),
+};
