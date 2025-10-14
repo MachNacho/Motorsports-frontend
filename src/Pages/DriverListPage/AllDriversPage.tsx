@@ -1,59 +1,24 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import type { Driver } from "./Interfaces/Driver";
-import {
-  getAllDrivers,
-  getNationalities,
-  getTeams,
-} from "./Services/APIDriverList";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Modal,
-  Typography,
-} from "@mui/material";
-import DriverAddForm from "./Component/DriverAddForm";
-import type { Nations } from "./Interfaces/Nations";
+import type { DriverDTO } from "../../types/Driver/DriverDTO";
+import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { driverAddFormSchema, type DriverAddFormSchema } from "./schema";
-import type { Team } from "./Interfaces/Team";
-import { getFlagFromName } from "../../utils/CountryFlagUtil";
+import { driverService } from "../../API/Services/driverService";
 import { getRandomDriverPhoto } from "../../utils/PhotoAssigner";
+
 const AllDriversPage: React.FC = () => {
-  const [drivers, setDrivers] = useState<Driver[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [nations, setNations] = useState<Nations[]>([]);
-  const [teams, setTeams] = useState<Team[]>([]);
+  const [drivers, setDrivers] = useState<DriverDTO[]>([]);
   const navigation = useNavigate();
 
-  const { register, handleSubmit, reset, watch, control } =
-    useForm<DriverAddFormSchema>({
-      resolver: zodResolver(driverAddFormSchema),
-    });
-  console.log(watch("driverGender"));
-  const onSubmit: SubmitHandler<DriverAddFormSchema> = (data) =>
-    console.log(data);
-
   useEffect(() => {
-    const fetchAllDrivers = async (): Promise<void> => {
+    const fetchAllDrivers = async () => {
       try {
-        const data: Driver[] = await getAllDrivers();
-        const dataNations: Nations[] = await getNationalities();
-        const dataTeams: Team[] = await getTeams();
-
+        const data: DriverDTO[] = await driverService.getAll();
         setDrivers(data);
-        setNations(dataNations);
-        setTeams(dataTeams);
       } catch (error) {
         console.error("Failed to fetch drivers:", error);
       }
     };
-
     fetchAllDrivers();
   }, []);
 
@@ -62,71 +27,7 @@ const AllDriversPage: React.FC = () => {
       <Typography variant="h1" align="center">
         Drivers {new Date().getFullYear()}
       </Typography>
-      <Button
-        fullWidth
-        variant="contained"
-        sx={{ mb: 2 }}
-        onClick={() => setIsModalOpen(true)}
-      >
-        Add driver
-      </Button>
-      <Modal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        keepMounted
-      >
-        <Box
-          sx={{
-            p: 4,
-            bgcolor: "background.paper",
-            borderRadius: 2,
-            boxShadow: 3,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            minWidth: 500,
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Typography variant="h6" align="center">
-            Add Driver Modal (to be implemented)
-          </Typography>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <DriverAddForm
-              nationalities={nations}
-              teams={teams}
-              register={register}
-              control={control}
-            />
-            <Box>
-              <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-                Submit
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                sx={{ mt: 2, ml: 2 }}
-                onClick={() => reset()}
-              >
-                Reset
-              </Button>
-              <Button
-                variant="outlined"
-                sx={{ mt: 2, ml: 2 }}
-                onClick={() => setIsModalOpen(false)}
-              >
-                Cancel
-              </Button>
-            </Box>
-          </form>
-        </Box>
-      </Modal>
       <Box
         sx={{
           display: "flex",
@@ -144,16 +45,25 @@ const AllDriversPage: React.FC = () => {
               onClick={() => navigation(`/Driver/${driver.id}`)}
               sx={{ cursor: "pointer" }}
             >
-              <Card sx={{ width: 476, height: 256, bgcolor: "#43547c1a" }}>
+              <Card
+                sx={{
+                  width: 476,
+                  height: 256,
+                  background:
+                    "linear-gradient(135deg, #bacdfbff 0%, #471e1eff 100%)",
+                }}
+              >
                 <CardContent>
                   <Grid container spacing={2}>
                     {/* Left */}
                     <Grid size={7}>
-                      <Typography variant="h4">{driver.firstName}</Typography>
+                      <Typography variant="h4">{driver.firstname}</Typography>
                       <Typography variant="h4" fontWeight="bold">
-                        {driver.lastName}
+                        {driver.lastname}
                       </Typography>
-                      <Typography> {driver.teamName}</Typography>
+                      <Typography variant="subtitle2">
+                        {driver.teamName}
+                      </Typography>
                       <Typography
                         sx={{
                           fontWeight: "bold",
@@ -163,20 +73,21 @@ const AllDriversPage: React.FC = () => {
                       >
                         # {driver.raceNumber}
                       </Typography>
-                      <Box sx={{}}>
+                      {/* <Tooltip title={`Flag of ${driver.country}`}>
                         <img
-                          src={getFlagFromName(driver.nationality)}
-                          alt={driver.nationality}
+                          src={getFlag4x3(driver.code)}
+                          alt={driver.country}
+                          height={50}
                         />
-                      </Box>
+                      </Tooltip> */}
                     </Grid>
                     {/* Left */}
                     <Grid size={5}>
                       <Box alignContent={"center"}>
                         <img
-                          src={getRandomDriverPhoto(driver.gender)}
-                          alt={driver.firstName}
-                          width={200}
+                          src={getRandomDriverPhoto("Other")}
+                          alt={driver.firstname}
+                          width={270}
                         />
                       </Box>
                     </Grid>

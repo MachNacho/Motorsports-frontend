@@ -34,8 +34,8 @@ export function getRandomFemalePhoto(): string | undefined {
 }
 
 export function getRandomDriverPhoto(gender: string): string | undefined {
-  if (gender === "male") return getRandomMalePhoto();
-  if (gender === "female") return getRandomFemalePhoto();
+  if (gender === "Male") return getRandomMalePhoto();
+  if (gender === "Female") return getRandomFemalePhoto();
 
   // If no gender specified, pick from all photos
   const allPhotos = [...malePhotos, ...femalePhotos];
