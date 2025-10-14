@@ -1,6 +1,6 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://localhost:7016";
+const BASE_URL = "https://localhost:7016";
 
 // Create an Axios instance with default configuration
 const apiClient = axios.create({
