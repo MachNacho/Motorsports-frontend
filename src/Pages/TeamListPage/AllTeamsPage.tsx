@@ -1,7 +1,7 @@
 import { Box, Card, CircularProgress, Grid, Typography } from "@mui/material";
 import type { TeamDTO } from "../../types/Team/TeamDTO";
 import { teamService } from "../../API/Services/teamService";
-import { getCarImage, getRandomCar } from "../../utils/CarAssigner";
+import { getRandomCar } from "../../utils/CarAssigner";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
