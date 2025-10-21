@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Typography, Grid, CircularProgress, Card, Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import type { FullDriverDTO } from "../../types/Driver/FullDriverDTO";
@@ -9,35 +8,31 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import StarIcon from "@mui/icons-material/Star";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_CONFIG } from "../../Constants/queryConfig";
+import { QUERY_KEYS } from "../../Constants/queryKeys";
 /**
  * Profile view for a single driver.
  * Fetches the profile by `driverId` and shows it in a Material‑UI card.
  */
 
 const DriverProfilePage: React.FC = () => {
-  const [driver, setDriver] = useState<FullDriverDTO>();
-  const [loading, setLoading] = useState<boolean>(true);
   const navigation = useNavigate();
   const { ID } = useParams<{ ID: string }>();
-  useEffect(() => {
-    const fetchDriverProfile = async (): Promise<void> => {
-      try {
-        if (ID) {
-          const data = await driverService.getById(ID);
-          setDriver(data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch driver:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchDriverProfile();
-  }, [ID]);
+  const {
+    data: driver,
+    isLoading,
+    isError,
+  } = useQuery<FullDriverDTO>({
+    queryKey: QUERY_KEYS.DRIVERS.DETAILS(ID ?? ""),
+    queryFn: () => driverService.getById(ID!),
+    enabled: !!ID,
+    staleTime: QUERY_CONFIG.STALE_TIME.MEDIUM,
+  });
 
   // --------------------------- UI states -----------------------------------
-  if (loading) {
+  if (isLoading) {
     return (
       <Grid container justifyContent="center" sx={{ mt: 4 }}>
         <CircularProgress />
@@ -45,14 +40,14 @@ const DriverProfilePage: React.FC = () => {
     );
   }
 
-  if (!driver) {
+  if (isError || !driver) {
     return (
       <Typography
         variant="h6"
         color="error"
         sx={{ mt: 4, textAlign: "center" }}
       >
-        Driver not found.
+        Driver not found or failed to load.
       </Typography>
     );
   }
@@ -61,14 +56,16 @@ const DriverProfilePage: React.FC = () => {
   return (
     <>
       {/* Base driver Info */}
-      <Typography variant="h1">
+      <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
         {driver.firstname} {driver.lastname}
       </Typography>
+
       <Card
         sx={{
-          height: 300,
           background: "linear-gradient(135deg, #bacdfbff 0%, #5f5d5dff 100%)",
-          padding: 1,
+          height: 300,
+          p: 2,
+          mb: 2,
         }}
       >
         <Grid
@@ -83,13 +80,15 @@ const DriverProfilePage: React.FC = () => {
               onClick={() => navigation(`/Team/${driver.teamId}`)}
               sx={{ cursor: "pointer" }}
             >
-              <Typography variant="h4">{driver.teamName}</Typography>
+              <Typography variant="h5" fontWeight="bold">
+                {driver.teamName}
+              </Typography>
             </Box>
             <Typography
               sx={{
                 fontWeight: "bold",
                 fontStyle: "italic",
-                fontSize: 50,
+                fontSize: 36,
               }}
             >
               # {driver.raceNumber}
@@ -108,7 +107,7 @@ const DriverProfilePage: React.FC = () => {
             <img
               src={getFlag4x3(driver.code)}
               alt={driver.nationality}
- 
+              style={{ borderRadius: 6 }}
             />
             <Typography variant="subtitle2">{driver.nationality}</Typography>
           </Grid>
@@ -125,10 +124,10 @@ const DriverProfilePage: React.FC = () => {
           flexDirection: "column",
         }}
       >
-        <Typography variant="h4">
-          Get to know {driver.firstname} {driver.lastname}
+        <Typography variant="h5" gutterBottom>
+          About {driver.firstname} {driver.lastname}
         </Typography>
-        <Typography>
+        <Typography variant="body1" color="text.secondary">
           Jordan “The Bullet” Hayes is a professional race car driver known for
           their fearless precision and relentless pursuit of perfection on the
           track. Starting their career in go-kart racing at the age of 10,
@@ -156,102 +155,28 @@ const DriverProfilePage: React.FC = () => {
           flexDirection: "column",
         }}
       >
-        <Typography variant="h4">Stats</Typography>
-        <Grid
-          container
-          sx={{
-            justifyContent: "center",
-            alignItems: "stretch",
-          }}
-        >
-          <Grid size={4}>
-            <Box>
-              <Typography variant="h6">Wins</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <EmojiEventsIcon />
-                <Typography>x1</Typography>
+        <Typography variant="h5" gutterBottom>
+          Stats
+        </Typography>
+        <Grid container spacing={2}>
+          {[
+            { label: "Wins", icon: <EmojiEventsIcon />, value: 1 },
+            { label: "Podiums", icon: <EmojiEventsIcon />, value: 1 },
+            { label: "Titles", icon: <StarIcon />, value: 1 },
+            { label: "Poles", icon: <LooksOneIcon />, value: 1 },
+            { label: "Points", icon: <LooksOneIcon />, value: 1 },
+            { label: "Race Starts", icon: <SportsScoreIcon />, value: 1 },
+            { label: "Laps Led", icon: <LooksOneIcon />, value: 1 },
+          ].map((stat) => (
+            <Grid size={4} key={stat.label}>
+              <Box display="flex" alignItems="center" gap={1}>
+                {stat.icon}
+                <Typography variant="body1">
+                  {stat.label}: x{stat.value}
+                </Typography>
               </Box>
-            </Box>
-          </Grid>
-          <Grid size={4}>
-            <Box>
-              <Typography variant="h6">Podiums</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <EmojiEventsIcon />
-                <Typography>x1</Typography>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid size={4}>
-            <Box>
-              <Typography variant="h6">Titles</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <StarIcon /> <Typography>x1</Typography>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid size={3}>
-            <Box>
-              <Typography variant="h6">Poles</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <LooksOneIcon /> <Typography>x1</Typography>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid size={3}>
-            <Box>
-              <Typography variant="h6">Points</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <LooksOneIcon /> <Typography>x1</Typography>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid size={3}>
-            <Box>
-              <Typography variant="h6">Race starts</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <SportsScoreIcon /> <Typography>x1</Typography>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid size={3}>
-            <Box>
-              <Typography variant="h6">Laps led</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <LooksOneIcon /> <Typography>x1</Typography>
-              </Box>
-            </Box>
-          </Grid>
+            </Grid>
+          ))}
         </Grid>
       </Card>
     </>
