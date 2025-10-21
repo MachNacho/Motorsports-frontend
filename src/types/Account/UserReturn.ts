@@ -1,5 +1,5 @@
 export interface UserReturn {
-  userName: string;
+  username: string;
   email: string;
   token: string;
   userId: string;
