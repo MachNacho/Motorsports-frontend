@@ -7,13 +7,14 @@ import {
   styled,
   Toolbar,
 } from "@mui/material";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
   flexShrink: 0,
-  borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
+  borderRadius: theme.spacing(1.5),
   backdropFilter: "blur(24px)",
   border: "1px solid",
   borderColor: (theme.vars || theme).palette.divider,
@@ -21,89 +22,76 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     ? `rgba(${theme.vars.palette.background.defaultChannel} / 0.4)`
     : alpha(theme.palette.background.default, 0.4),
   boxShadow: (theme.vars || theme).shadows[1],
-  padding: "8px 12px",
+  padding: theme.spacing(1, 2),
 }));
 
+const NAV_ITEMS = [
+  { label: "Drivers", to: "/Driver/List" },
+  { label: "Teams", to: "/Teams" },
+  { label: "3D Track Model", to: "/TrackModel" },
+  { label: "Nations", to: "/Nation/stats" },
+  { label: "Circuits", to: "/Circuits" },
+];
+
 export function NavigationBar() {
+  const location = useLocation();
+
   return (
     <AppBar
       position="relative"
-      enableColorOnDark
       sx={{
-        boxShadow: 0,
+        boxShadow: "none",
         bgcolor: "transparent",
         backgroundImage: "none",
         mt: "calc(var(--template-frame-height, 0px) + 28px)",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <StyledToolbar variant="dense" disableGutters>
-          <Box
-            sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
-          >
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          {/* Nav Buttons */}
+          <Box sx={{ display: "flex", gap: 4 }}>
+            {NAV_ITEMS.map((item) => (
               <Button
-                variant="text"
-                color="info"
+                key={item.to}
+                component={RouterLink}
+                to={item.to}
                 size="small"
-                href="/Driver/List"
+                sx={{
+                  color:
+                    location.pathname.startsWith(item.to) ||
+                    location.pathname === item.to
+                      ? "primary.main"
+                      : "info.main",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    color: "primary.main",
+                  },
+                }}
               >
-                Drivers
+                {item.label}
               </Button>
-              <Button variant="text" color="info" size="small" href="/Teams">
-                Teams
-              </Button>
-              <Button
-                variant="text"
-                color="info"
-                size="small"
-                href="/TrackModel"
-              >
-                Circuts
-              </Button>
-              <Button
-                variant="text"
-                color="info"
-                size="small"
-                sx={{ minWidth: 0 }}
-                href="/something"
-              >
-                FAQ
-              </Button>
-              <Button
-                variant="text"
-                color="info"
-                size="small"
-                sx={{ minWidth: 0 }}
-                href="/something"
-              >
-                Blog
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                display: { xs: "none", md: "flex" },
-                gap: 1,
-                alignItems: "end",
-              }}
+            ))}
+          </Box>
+
+          {/* Auth Buttons */}
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            <Button
+              component={RouterLink}
+              to="/Signin"
+              variant="text"
+              size="small"
             >
-              <Button
-                color="primary"
-                variant="text"
-                size="small"
-                href="/Signin"
-              >
-                Sign in
-              </Button>
-              <Button
-                color="primary"
-                variant="contained"
-                size="small"
-                href="/Register"
-              >
-                Sign up
-              </Button>
-            </Box>
+              Sign in
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/Register"
+              variant="contained"
+              size="small"
+            >
+              Sign up
+            </Button>
           </Box>
         </StyledToolbar>
       </Container>
