@@ -25,6 +25,7 @@ export const TeamEndpoints = {
 // Nationality endpoints
 export const NationalityEndpoints = {
   getAll: buildEndpoint("/api/Nationality"),
+  getStats: buildEndpoint("/api/Nationality/stats"),
 };
 
 // Account endpoints
