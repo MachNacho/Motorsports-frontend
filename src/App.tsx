@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavigationBar } from "./components/NavigationBar";
 import DriverProfilePage from "./Pages/DriverProfilePage/DriverProfilePage";
 import AllTeamPage from "./Pages/TeamListPage/AllTeamsPage";
+import NationStatsPage from "./Pages/NationStatsPage/NationStatsPage";
 
 const theme = createTheme({
   palette: {
@@ -26,9 +27,9 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <NavigationBar />
       <Container maxWidth="xl">
         <BrowserRouter>
+          <NavigationBar />
           <Routes>
             <Route path="/Driver/:ID" element={<DriverProfilePage />} />
             <Route path="/Register" element={<RegisterPage />} />
@@ -37,6 +38,7 @@ function App() {
             <Route path="/TrackModel" element={<ModelViewPage />} />
             <Route path="/Teams" element={<AllTeamPage />} />
             <Route path="/Team/:ID" element={<AllDriversPage />} />
+            <Route path="/Nation/stats" element={<NationStatsPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/" element={<NotFoundPage />} />
           </Routes>
