@@ -5,8 +5,10 @@ import { getRandomCar } from "../../utils/CarAssigner";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
+import { useNavigate } from "react-router-dom";
 
 const AllTeamPage: React.FC = () => {
+  const navigation = useNavigate();
   const {
     data: teams,
     isLoading,
@@ -60,7 +62,9 @@ const AllTeamPage: React.FC = () => {
         {teams.map((team) => (
           <Card
             key={team.id}
+            onClick={() => navigation(`/Team/${team.id}`)}
             sx={{
+              cursor: "pointer",
               width: 650,
               height: 200,
               display: "flex",
@@ -72,7 +76,7 @@ const AllTeamPage: React.FC = () => {
             }}
           >
             <Grid container alignItems="center" spacing={2}>
-              <Grid xs={5}>
+              <Grid size={5}>
                 <Typography variant="h4" fontWeight="bold">
                   {team.name}
                 </Typography>
@@ -82,7 +86,7 @@ const AllTeamPage: React.FC = () => {
                 <Typography variant="subtitle1">Drivers: {0}</Typography>
               </Grid>
 
-              <Grid xs={7} display="flex" justifyContent="center">
+              <Grid size={7} display="flex" justifyContent="center">
                 <img
                   src={getRandomCar()}
                   alt={`${team.name} car`}

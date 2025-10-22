@@ -12,6 +12,7 @@ import { NavigationBar } from "./components/NavigationBar";
 import DriverProfilePage from "./Pages/DriverProfilePage/DriverProfilePage";
 import AllTeamPage from "./Pages/TeamListPage/AllTeamsPage";
 import NationStatsPage from "./Pages/NationStatsPage/NationStatsPage";
+import TeamProfilePage from "./Pages/TeamProfilePage/TeamProfilePage";
 
 const theme = createTheme({
   palette: {
@@ -37,7 +38,7 @@ function App() {
             <Route path="/Driver/List" element={<AllDriversPage />} />
             <Route path="/TrackModel" element={<ModelViewPage />} />
             <Route path="/Teams" element={<AllTeamPage />} />
-            <Route path="/Team/:ID" element={<AllDriversPage />} />
+            <Route path="/Team/:ID" element={<TeamProfilePage />} />
             <Route path="/Nation/stats" element={<NationStatsPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/" element={<NotFoundPage />} />
