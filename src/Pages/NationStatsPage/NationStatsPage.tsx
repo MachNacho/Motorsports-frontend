@@ -75,7 +75,7 @@ const NationStatsPage: React.FC = () => {
         {nations.map((nation) => (
           <Card
             key={nation.code}
-            sx={{ width: { xs: 280, sm: 320, md: 365 }, boxShadow: 3 }}
+            sx={{ width: { xs: "100%", sm: 320, md: 365 }, boxShadow: 3 }}
           >
             <CardMedia
               sx={{ height: 220 }}
