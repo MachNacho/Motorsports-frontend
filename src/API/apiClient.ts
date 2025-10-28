@@ -1,4 +1,5 @@
 import axios, { AxiosError, type AxiosResponse } from "axios";
+import { accountService } from "./Services/accountService";
 
 const BASE_URL = "https://localhost:7016";
 
@@ -14,7 +15,7 @@ const apiClient = axios.create({
 // Inject Authorization token (if present) before every request
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token"); 
+    const token = accountService.getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -42,7 +43,6 @@ export const api = {
   },
 };
 
-
 // Response Interceptor
 // Handle common errors globally
 apiClient.interceptors.response.use(
@@ -53,8 +53,8 @@ apiClient.interceptors.response.use(
       switch (status) {
         case 401:
           console.warn("Unauthorized — token might be invalid or expired");
-          localStorage.removeItem("token");
-          window.location.href = "/login"; // optional redirect
+          accountService.logout();
+          window.location.href = "/Signin"; // optional redirect
           break;
         case 403:
           console.error("Forbidden — you don't have permission");

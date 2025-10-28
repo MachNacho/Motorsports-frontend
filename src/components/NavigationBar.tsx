@@ -100,8 +100,16 @@ export function NavigationBar() {
               </>
             ) : (
               <>
-                <Typography color="black">Hello {user?.name}</Typography>
-                <Button variant="outlined" onClick={logout} sx={{ ml: 2 }}>
+                <Button component={RouterLink} to="/Dashboard">
+                  Dashboard
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to="/Signin"
+                  variant="outlined"
+                  onClick={logout}
+                  sx={{ ml: 2 }}
+                >
                   Logout
                 </Button>
               </>
