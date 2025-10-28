@@ -72,6 +72,7 @@ const AllDriversPage: React.FC = () => {
       >
         {drivers.map((driver) => (
           <Card
+            key={driver.id}
             onClick={() => navigation(`/Driver/${driver.id}`)}
             sx={{
               cursor: "pointer",

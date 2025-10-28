@@ -93,7 +93,11 @@ const TeamProfilePage: React.FC = () => {
         <Typography variant="h5" gutterBottom>
           About {team.teamName}
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ lineHeight: 1.6 }}
+        >
           Jordan “The Bullet” Hayes is a professional race car driver known for
           their fearless precision and relentless pursuit of perfection on the
           track. Starting their career in go-kart racing at the age of 10,
@@ -112,53 +116,41 @@ const TeamProfilePage: React.FC = () => {
       </Card>
 
       {/* Stats card */}
-      <Card
-        sx={{
-          marginTop: 1,
-          padding: 1,
-          display: "flex",
-          gap: 2,
-          flexDirection: "column",
-        }}
-      >
+      <Card sx={{ p: 2, mb: 2 }}>
         <Typography variant="h5" gutterBottom>
           Drivers
         </Typography>
         <Box
           sx={{
-            marginTop: 1,
-            padding: 1,
-            flexWrap: "wrap",
+            mt: 1,
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "center",
             gap: 2,
           }}
         >
           {team.drivers.map((driver) => (
             <Card
+              key={driver.id}
               onClick={() => navigation(`/Driver/${driver.id}`)}
               sx={{
                 cursor: "pointer",
-                width: { sm: "100%", md: "30%" },
-                transition: "all 0.2s ease, box-shadow 0.2s ease",
-                "&:hover": {
-                  transform: "scale(1.02)",
-                  boxShadow: 6,
-                  background:
-                    "linear-gradient(135deg, #dfe7fd 0%, #8b1a1a 100%)",
-                },
+                width: { xs: "100%", sm: "45%", md: "30%" },
+                p: 2,
                 background:
                   "linear-gradient(135deg, #bacdfbff 0%, #471e1eff 100%)",
+                transition: "all 0.4s ease-in-out",
+                backgroundSize: "200% 200%",
+                "&:hover": {
+                  backgroundPosition: "100% 0%",
+                  transform: "scale(1.02)",
+                  boxShadow: 6,
+                },
               }}
             >
-              <Grid
-                container
-                sx={{
-                  padding: 1,
-                }}
-              >
+              <Grid container alignItems="center" spacing={2}>
                 <Grid size={10}>
-                  <Typography variant="h4">
+                  <Typography variant="h6" fontWeight="bold">
                     {driver.firstname} {driver.lasstname}
                   </Typography>
                 </Grid>
