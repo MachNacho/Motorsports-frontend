@@ -8,6 +8,7 @@ import {
   Toolbar,
 } from "@mui/material";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -35,7 +36,8 @@ const NAV_ITEMS = [
 
 export function NavigationBar() {
   const location = useLocation();
-
+  const { user, isAuthenticated, logout } = useAuth();
+  console.log(user);
   return (
     <AppBar
       position="relative"
@@ -76,22 +78,41 @@ export function NavigationBar() {
 
           {/* Auth Buttons */}
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-            <Button
-              component={RouterLink}
-              to="/Signin"
-              variant="text"
-              size="small"
-            >
-              Sign in
-            </Button>
-            <Button
-              component={RouterLink}
-              to="/Register"
-              variant="contained"
-              size="small"
-            >
-              Sign up
-            </Button>
+            {!isAuthenticated ? (
+              <>
+                <Button
+                  component={RouterLink}
+                  to="/Signin"
+                  variant="text"
+                  size="small"
+                >
+                  Sign in
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to="/Register"
+                  variant="contained"
+                  size="small"
+                >
+                  Sign up
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button component={RouterLink} to="/Dashboard">
+                  Dashboard
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to="/Signin"
+                  variant="outlined"
+                  onClick={logout}
+                  sx={{ ml: 2 }}
+                >
+                  Logout
+                </Button>
+              </>
+            )}
           </Box>
         </StyledToolbar>
       </Container>

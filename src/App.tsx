@@ -4,15 +4,15 @@ import AllDriversPage from "./Pages/DriverListPage/AllDriversPage";
 import { Container } from "@mui/material";
 import ModelViewPage from "./Pages/ModelViewPage/ModelViewPage";
 // import { NavigationBar } from "./components/NavigationBar";
-import RegisterPage from "./Pages/RegisterPage/RegisterPage";
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
-import SignInPage from "./Pages/SigninPage/SignInPage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavigationBar } from "./components/NavigationBar";
 import DriverProfilePage from "./Pages/DriverProfilePage/DriverProfilePage";
 import AllTeamPage from "./Pages/TeamListPage/AllTeamsPage";
 import NationStatsPage from "./Pages/NationStatsPage/NationStatsPage";
 import TeamProfilePage from "./Pages/TeamProfilePage/TeamProfilePage";
+import SignInPage from "./Pages/Auth/SignInPage";
+import RegisterPage from "./Pages/Auth/RegisterPage";
 
 const theme = createTheme({
   palette: {
