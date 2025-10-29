@@ -11,7 +11,7 @@ const apiClient = axios.create({
   },
 });
 
-// ✅ Request Interceptor
+// Request Interceptor
 // Inject Authorization token (if present) before every request
 apiClient.interceptors.request.use(
   (config) => {

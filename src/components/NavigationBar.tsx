@@ -6,7 +6,6 @@ import {
   Container,
   styled,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
