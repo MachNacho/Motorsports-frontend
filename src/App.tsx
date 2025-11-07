@@ -13,6 +13,9 @@ import NationStatsPage from "./Pages/NationStatsPage/NationStatsPage";
 import TeamProfilePage from "./Pages/TeamProfilePage/TeamProfilePage";
 import SignInPage from "./Pages/Auth/SignInPage";
 import RegisterPage from "./Pages/Auth/RegisterPage";
+import RaceTrackPage from "./Pages/RaceTrackPage/RaceTrackPage";
+import RaceTrackProfilePage from "./Pages/RaceTrackProfilePage/RaceTrackProfilePage";
+import DriverTable from "./Pages/Admin/Driver/DriverTable";
 
 const theme = createTheme({
   palette: {
@@ -40,6 +43,9 @@ function App() {
             <Route path="/Teams" element={<AllTeamPage />} />
             <Route path="/Team/:ID" element={<TeamProfilePage />} />
             <Route path="/Nation/stats" element={<NationStatsPage />} />
+            <Route path="/Tracks" element={<RaceTrackPage />} />
+            <Route path="/Track/:ID" element={<RaceTrackProfilePage />} />
+            <Route path="/DriverTable" element={<DriverTable />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/" element={<NotFoundPage />} />
           </Routes>
