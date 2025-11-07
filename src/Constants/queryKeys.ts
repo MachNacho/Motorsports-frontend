@@ -13,6 +13,7 @@ export const QUERY_KEYS = {
   },
   TEAMS: {
     LIST: ["teamList"] as const,
+    OPTIONS: ["options"] as const,
     DETAILS: (id: string) => ["teamDetails", id] as const,
   },
   TRACKS: {
