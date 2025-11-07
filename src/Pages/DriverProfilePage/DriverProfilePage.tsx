@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import type { FullDriverDTO } from "../../types/Driver/FullDriverDTO";
 import { driverService } from "../../API/Services/driverService";
 import { getRandomDriverPhoto } from "../../utils/PhotoAssigner";
-import { getFlag4x3 } from "../../utils/flagUtils";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import StarIcon from "@mui/icons-material/Star";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
@@ -105,9 +104,10 @@ const DriverProfilePage: React.FC = () => {
           </Grid>
           <Grid size={2}>
             <img
-              src={getFlag4x3(driver.code)}
+              src={`https://flagcdn.com/${driver.code}.svg`}
               alt={driver.nationality}
               style={{ borderRadius: 6 }}
+              width={"100%"}
             />
             <Typography variant="subtitle2">{driver.nationality}</Typography>
           </Grid>

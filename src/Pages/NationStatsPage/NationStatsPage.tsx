@@ -8,7 +8,6 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { getFlag4x3 } from "../../utils/flagUtils";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
@@ -79,7 +78,7 @@ const NationStatsPage: React.FC = () => {
           >
             <CardMedia
               sx={{ height: 220 }}
-              image={getFlag4x3(nation.code)}
+              image={`https://flagcdn.com/${nation.code}.svg`}
               title={nation.name}
             />
             <CardContent>

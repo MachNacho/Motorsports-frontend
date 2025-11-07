@@ -5,7 +5,6 @@ import { teamService } from "../../API/Services/teamService";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
 import { Grid, CircularProgress, Typography, Card, Box } from "@mui/material";
 import type { FullTeamDTO } from "../../types/Team/FullTeamDTO";
-import { getFlag4x3 } from "../../utils/flagUtils";
 import { getRandomCar } from "../../utils/CarAssigner";
 
 const TeamProfilePage: React.FC = () => {
@@ -71,7 +70,8 @@ const TeamProfilePage: React.FC = () => {
           </Grid>
           <Grid size={2}>
             <img
-              src={getFlag4x3(team.nationCode)}
+              src={`https://flagcdn.com/${team.nationCode}.svg`}
+              width={"100%"}
               alt={team.nationName}
               style={{ borderRadius: 6 }}
             />
@@ -156,7 +156,7 @@ const TeamProfilePage: React.FC = () => {
                 </Grid>
                 <Grid size={2}>
                   <img
-                    src={getFlag4x3(driver.nationCode)}
+                    src={`https://flagcdn.com/${driver.nationCode}.svg`}
                     alt={driver.nationCode}
                     width={"100%"}
                     style={{ borderRadius: 6 }}
