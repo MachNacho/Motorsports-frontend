@@ -6,13 +6,17 @@ import {
 } from "./validation/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Alert,
   Box,
   Button,
   Card,
   Container,
   IconButton,
+  Snackbar,
   Typography,
+  type SnackbarCloseReason,
 } from "@mui/material";
+import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { accountService } from "../../API/Services/accountService";
 import { useAuth } from "../../context/AuthContext";
@@ -20,11 +24,27 @@ import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import RegisterFormTextField from "./components/RegisterFormTextField";
+import type { SnackbarSeverity } from "../../Constants/uiTypes";
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const { login: setAuthUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: SnackbarSeverity;
+  }>({ open: false, message: "", severity: "info" });
+
+  const handleClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === "clickaway") return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
+
   const {
     register,
     handleSubmit,
@@ -38,7 +58,20 @@ const RegisterPage: React.FC = () => {
     mutationFn: (data: RegisterSchemaType) => accountService.register(data),
     onSuccess: (result) => {
       setAuthUser(result.token);
-      setTimeout(() => navigate("/Driver/List"), 7000);
+      navigate("/Driver/List");
+    },
+    onError: (error: unknown) => {
+      let message = "An unexpected error occurred.";
+      if (axios.isAxiosError(error) && error.response) {
+        const { status } = error.response;
+        message =
+          {
+            400: "Invalid username or password.",
+            409: "Email or Username in use",
+            500: "Server error. Try again later.",
+          }[status] ?? `Unexpected error (${status})`;
+      }
+      setSnackbar({ open: true, message, severity: "error" });
     },
   });
 
@@ -144,14 +177,24 @@ const RegisterPage: React.FC = () => {
           >
             {registerMutation.isPending ? "Registering..." : "Register"}
           </Button>
-          {registerMutation.isError && (
-            <Typography color="error" variant="body2">
-              {(registerMutation.error as Error).message ||
-                "Registration failed"}
-            </Typography>
-          )}
         </Box>
       </Card>
+      
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

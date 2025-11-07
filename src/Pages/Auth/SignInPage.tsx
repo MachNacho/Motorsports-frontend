@@ -21,8 +21,7 @@ import axios from "axios";
 import LoginFormTextField from "./components/LoginFormTextField";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-
-type SnackbarSeverity = "success" | "error" | "warning" | "info";
+import type { SnackbarSeverity } from "../../Constants/uiTypes";
 
 const SignInPage: React.FC = () => {
   const navigate = useNavigate();
@@ -61,7 +60,7 @@ const SignInPage: React.FC = () => {
         message: "Login successful! Redirecting...",
         severity: "success",
       });
-      setTimeout(() => navigate("/Driver/List"), 1000);
+      navigate("/Driver/List");
     },
     onError: (error: unknown) => {
       let message = "An unexpected error occurred.";
@@ -72,7 +71,7 @@ const SignInPage: React.FC = () => {
             400: "Invalid username or password.",
             401: "Unauthorized. Please check your credentials.",
             403: "Access denied. Contact administrator.",
-            404: "Login service not found.",
+            404: "Login not found.",
             500: "Server error. Try again later.",
           }[status] ?? `Unexpected error (${status})`;
       }
