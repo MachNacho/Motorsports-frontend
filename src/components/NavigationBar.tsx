@@ -31,13 +31,13 @@ const NAV_ITEMS = [
   { label: "Teams", to: "/Teams" },
   { label: "3D Track Model", to: "/TrackModel" },
   { label: "Nations", to: "/Nation/stats" },
-  { label: "Circuits", to: "/Circuits" },
+  { label: "Circuits", to: "/Tracks" },
 ];
 
 export function NavigationBar() {
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
-  console.log(user);
+  console.log(user?.email);
   return (
     <AppBar
       position="relative"
@@ -99,7 +99,7 @@ export function NavigationBar() {
               </>
             ) : (
               <>
-                <Button component={RouterLink} to="/Dashboard">
+                <Button component={RouterLink} to="/DriverTable">
                   Dashboard
                 </Button>
                 <Button
