@@ -4,4 +4,5 @@ export interface DecodedUser {
   JTI?: string;
   Id?: string;
   exp?: number;
+  role: string;
 }
