@@ -5,7 +5,6 @@ import { teamService } from "../../API/Services/teamService";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
 import { Grid, CircularProgress, Typography, Card, Box } from "@mui/material";
 import type { FullTeamDTO } from "../../types/Team/FullTeamDTO";
-import { getRandomCar } from "../../utils/CarAssigner";
 
 const TeamProfilePage: React.FC = () => {
   const { ID } = useParams<{ ID: string }>();
@@ -63,7 +62,7 @@ const TeamProfilePage: React.FC = () => {
         >
           <Grid size={10}>
             <img
-              src={getRandomCar()}
+              src={"../../../public/Car/Car1.avif"}
               alt={`${team.teamName} car`}
               width={"100%"}
             />

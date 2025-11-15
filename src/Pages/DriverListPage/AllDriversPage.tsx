@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { driverService } from "../../API/Services/driverService";
-import { getRandomDriverPhoto } from "../../utils/PhotoAssigner";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
@@ -111,7 +110,7 @@ const AllDriversPage: React.FC = () => {
                 <Grid size={5}>
                   <Box alignContent={"center"}>
                     <img
-                      src={getRandomDriverPhoto("Other")}
+                      src={"../../../public/Driver/Male/UnkownMale.png"}
                       alt={driver.firstname}
                       width={270}
                     />

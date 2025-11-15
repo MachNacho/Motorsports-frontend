@@ -2,7 +2,6 @@ import { Typography, Grid, CircularProgress, Card, Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import type { FullDriverDTO } from "../../types/Driver/FullDriverDTO";
 import { driverService } from "../../API/Services/driverService";
-import { getRandomDriverPhoto } from "../../utils/PhotoAssigner";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import StarIcon from "@mui/icons-material/Star";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
@@ -97,7 +96,7 @@ const DriverProfilePage: React.FC = () => {
           </Grid>
           <Grid size={4}>
             <img
-              src={getRandomDriverPhoto(driver.gender)}
+              src={"../../../public/Driver/Male/UnkownMale.png"}
               alt={driver.firstname}
               width={330}
             />

@@ -64,8 +64,8 @@ const RaceTrackProfilePage: React.FC = () => {
           </Grid>
           <Grid size={4} sx={{ height: "100%" }}>
             <Typography fontWeight="bold">Grand prix names</Typography>
-            {track.grandPrixNames.map((name) => (
-              <Typography>{name}</Typography>
+            {track.grandPrixNames.map((name, index) => (
+              <Typography key={index}>{name}</Typography>
             ))}
           </Grid>
           <Grid size={4} sx={{ height: "100%" }}>

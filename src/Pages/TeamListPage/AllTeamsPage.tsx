@@ -1,7 +1,6 @@
 import { Box, Card, CircularProgress, Grid, Typography } from "@mui/material";
 import type { TeamDTO } from "../../types/Team/TeamDTO";
 import { teamService } from "../../API/Services/teamService";
-import { getRandomCar } from "../../utils/CarAssigner";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
@@ -88,7 +87,7 @@ const AllTeamPage: React.FC = () => {
 
               <Grid size={7} display="flex" justifyContent="center">
                 <img
-                  src={getRandomCar()}
+                  src={"../../../public/Car/Car1.avif"}
                   alt={`${team.name} car`}
                   width={300}
                   style={{ borderRadius: 8 }}
