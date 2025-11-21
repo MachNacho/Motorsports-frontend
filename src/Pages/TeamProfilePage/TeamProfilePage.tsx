@@ -42,12 +42,22 @@ const TeamProfilePage: React.FC = () => {
   // --------------------------- Team Profile--------------------------------
   return (
     <>
-      <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
+      <Typography
+        variant="h3"
+        align="center"
+        fontWeight="bold"
+        gutterBottom
+        color="text.primary"
+      >
         {team.teamName}
       </Typography>
       <Card
         sx={{
-          background: "linear-gradient(135deg, #bacdfbff 0%, #5f5d5dff 100%)",
+          backgroundImage: `url(/TEAMDRS.webp)`,
+          backgroundBlendMode: "multiply",
+          backgroundColor: team.colour ?? "#000000ff",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% 100%",
           height: 300,
           p: 2,
           mb: 2,
@@ -55,117 +65,153 @@ const TeamProfilePage: React.FC = () => {
       >
         <Grid
           container
+          height={"100%"}
+          spacing={2}
           sx={{
             justifyContent: "space-evenly",
-            alignItems: "flex-start",
+            alignItems: "center",
           }}
         >
-          <Grid size={10}>
-            <img
-              src={"../../../public/Car/Car1.avif"}
-              alt={`${team.teamName} car`}
-              width={"100%"}
+          <Grid size={2}>
+            <Box
+              component={"img"}
+              sx={{
+                width: "60%",
+                borderRadius: 6,
+              }}
+              src={`/logo3.avif`}
+              alt={team.teamName}
             />
           </Grid>
-          <Grid size={2}>
-            <img
-              src={`https://flagcdn.com/${team.nationCode}.svg`}
-              width={"100%"}
-              alt={team.nationName}
-              style={{ borderRadius: 6 }}
+          <Grid size={9}>
+            <Box
+              component={"img"}
+              src={team.imageURL}
+              sx={{ width: "60%" }}
+              alt={`${team.teamName} car`}
             />
-            <Typography variant="subtitle2">{team.nationName}</Typography>
+          </Grid>
+
+          <Grid size={1}>
+            <Box
+              component={"img"}
+              sx={{
+                width: "100%",
+                borderRadius: 4,
+              }}
+              src={`https://flagcdn.com/${team.nationCode}.svg`}
+              alt={team.nationName}
+            />
+
+            <Typography variant="subtitle2" color="text.primary">
+              {team.nationName}
+            </Typography>
           </Grid>
         </Grid>
       </Card>
 
-      {/* Info card */}
-      <Card
-        sx={{
-          marginTop: 1,
-          padding: 1,
-          display: "flex",
-          gap: 2,
-          flexDirection: "column",
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
-          About {team.teamName}
-        </Typography>
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{ lineHeight: 1.6 }}
-        >
-          Jordan “The Bullet” Hayes is a professional race car driver known for
-          their fearless precision and relentless pursuit of perfection on the
-          track. Starting their career in go-kart racing at the age of 10,
-          Jordan quickly rose through the ranks of junior leagues, earning a
-          reputation for sharp instincts and tactical brilliance. After debuting
-          in the national touring series at just 19, Jordan secured multiple
-          podium finishes in their rookie season — a rare feat that caught the
-          attention of major racing teams. Over the years, they’ve claimed three
-          championship titles, broken several lap-time records, and stood on the
-          podium at some of the world’s most prestigious circuits. Beyond the
-          stats, Jordan is known for their calm under pressure, commitment to
-          teamwork, and continuous push to innovate through data-driven
-          performance tuning. Off the track, they mentor young drivers and
-          advocate for safety and sustainability in motorsport.
-        </Typography>
-      </Card>
-
-      {/* Stats card */}
-      <Card sx={{ p: 2, mb: 2 }}>
-        <Typography variant="h5" gutterBottom>
-          Drivers
-        </Typography>
-        <Box
+      <Grid container spacing={3}>
+        <Grid
+          size={6}
           sx={{
-            mt: 1,
+            padding: 1,
             display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: 2,
+            flexDirection: "column",
+            gap: 1,
           }}
         >
-          {team.drivers.map((driver) => (
-            <Card
-              key={driver.id}
-              onClick={() => navigation(`/Driver/${driver.id}`)}
+          <Typography variant="h2" gutterBottom color="text.primary">
+            About {team.teamName}
+          </Typography>
+          <Typography variant="h6" gutterBottom color="text.primary">
+            Headquarters: {team.headquarters}, {team.nationName}
+          </Typography>
+          <Typography variant="h6" gutterBottom color="text.primary">
+            Founded: {team.foundedDate}
+          </Typography>
+          <Box
+            sx={(theme) => ({
+              ...theme.typography.body1,
+              color: "text.primary",
+              whiteSpace: "pre-line",
+            })}
+          >
+            {team.description}
+          </Box>
+          <Typography
+            variant="body1"
+            color="text.primary"
+            sx={{ lineHeight: 1.6 }}
+          ></Typography>
+        </Grid>
+        <Grid size={6}>
+          <Box
+            sx={{
+              overflow: "hidden",
+              backgroundColor: "transparent",
+            }}
+          >
+            <Typography variant="h2" gutterBottom color="text.primary">
+              Drivers
+            </Typography>
+            <Box
               sx={{
-                cursor: "pointer",
-                width: { xs: "100%", sm: "45%", md: "30%" },
-                p: 2,
-                background:
-                  "linear-gradient(135deg, #bacdfbff 0%, #471e1eff 100%)",
-                transition: "all 0.4s ease-in-out",
-                backgroundSize: "200% 200%",
-                "&:hover": {
-                  backgroundPosition: "100% 0%",
-                  transform: "scale(1.02)",
-                  boxShadow: 6,
-                },
+                mt: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "stretch",
+                gap: 2,
+                maxHeight: 300,
+                overflowY: "auto",
+                pr: 1,
+                pt: 1,
               }}
             >
-              <Grid container alignItems="center" spacing={2}>
-                <Grid size={10}>
-                  <Typography variant="h6" fontWeight="bold">
-                    {driver.firstname} {driver.lasstname}
-                  </Typography>
-                </Grid>
-                <Grid size={2}>
-                  <img
-                    src={`https://flagcdn.com/${driver.nationCode}.svg`}
-                    alt={driver.nationCode}
-                    width={"100%"}
-                    style={{ borderRadius: 6 }}
-                  />
-                </Grid>
-              </Grid>
-            </Card>
-          ))}
-        </Box>
-      </Card>
+              {team.drivers.map((driver) => (
+                <Card
+                  key={driver.id}
+                  onClick={() => navigation(`/Driver/${driver.id}`)}
+                  sx={{
+                    cursor: "pointer",
+                    width: "90%",
+                    p: 2,
+                    overflow: "hidden",
+                    flexShrink: 0,
+                    height: 50,
+                    background: `linear-gradient(135deg,${
+                      team.colour ?? "#ca0500"
+                    } 70%, 
+                       #000000ff 30%)`,
+                    transition: "all 0.4s ease-in-out",
+                    backgroundSize: "130% 200%",
+                    "&:hover": {
+                      backgroundPosition: "30% 100%",
+                      boxShadow: 6,
+                    },
+                  }}
+                >
+                  <Grid container alignItems="center" spacing={2}>
+                    <Grid size={10}>
+                      <Typography variant="h5" fontStyle={"italic"} fontWeight="bold">
+                        {driver.firstname} {driver.lasstname}
+                      </Typography>
+                    </Grid>
+                    <Grid size={2}>
+                      <Box
+                        component="img"
+                        sx={{ width: "50%", borderRadius: 2 }}
+                        src={`https://flagcdn.com/${driver.nationCode}.svg`}
+                        alt={driver.nationCode}
+                      />
+                    </Grid>
+                  </Grid>
+                </Card>
+              ))}
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+      {/* Info card */}
     </>
   );
 };

@@ -13,3 +13,5 @@ export const EMPTY_DRIVER_DEFAULTS: driverFormSchemaType = {
   imageURL: "",
   teamId: "",
 };
+
+export const PAGE_SIZE = 6;

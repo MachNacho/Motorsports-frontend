@@ -6,6 +6,7 @@ export interface FullTrackDTO {
   type: string;
   location: string;
   length: string;
+  turns: string;
   nationName: string;
   nationCode: string;
   imageURL: string;

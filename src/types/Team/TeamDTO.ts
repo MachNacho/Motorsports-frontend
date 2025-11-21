@@ -1,8 +1,8 @@
 export interface TeamDTO {
   id: string;
   name: string;
-  country: string;
-  code: string;
+  driverCount: number;
+  imageURL: string;
+  colour: string;
   yearFounded: string;
-  headquarters: string;
 }

@@ -4,6 +4,9 @@ export interface FullTeamDTO {
   headquarters: string;
   nationCode: string;
   nationName: string;
+  colour: string;
+  imageURL: string;
+  description: string;
   drivers: Driver[];
 }
 export interface Driver {

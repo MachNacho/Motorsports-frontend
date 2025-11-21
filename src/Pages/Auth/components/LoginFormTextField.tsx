@@ -32,6 +32,7 @@ const LoginFormTextField: React.FC<FormTextFieldProps> = ({
       variant="outlined"
       disabled={disabled}
       autoComplete={autoComplete}
+      sx={{ input: { color: "black" } }}
     />
   </FormControl>
 );

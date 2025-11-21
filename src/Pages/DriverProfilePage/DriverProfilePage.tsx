@@ -54,13 +54,27 @@ const DriverProfilePage: React.FC = () => {
   return (
     <>
       {/* Base driver Info */}
-      <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
-        {driver.firstname} {driver.lastname}
+      <Typography
+        variant="h3"
+        align="center"
+        fontWeight="bold"
+        gutterBottom
+        color="text.primary"
+      >
+        {driver.firstname} {driver.middleName} {driver.lastname}
       </Typography>
 
       <Card
         sx={{
-          background: "linear-gradient(135deg, #bacdfbff 0%, #5f5d5dff 100%)",
+          backgroundImage: `url(/DRSPIC.webp)`,
+          backgroundBlendMode: "multiply",
+          backgroundColor: driver.colour ?? "#ca0500",
+          transition: "all 0.4s ease-in-out",
+          backgroundSize: "100% 200%",
+          "&:hover": {
+            backgroundPosition: "100% 0%",
+            boxShadow: 6,
+          },
           height: 300,
           p: 2,
           mb: 2,
@@ -86,98 +100,158 @@ const DriverProfilePage: React.FC = () => {
               sx={{
                 fontWeight: "bold",
                 fontStyle: "italic",
-                fontSize: 36,
+                fontSize: 40,
               }}
             >
               # {driver.raceNumber}
             </Typography>
-            <Typography>DOB: {driver.birthDate}</Typography>
-            <Typography>Gender: {driver.gender}</Typography>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontStyle: "italic",
+              }}
+            >
+              DOB: {driver.birthDate}
+            </Typography>
+            <Typography
+              sx={{
+                fontWeight: "bold",
+                fontStyle: "italic",
+              }}
+            >
+              Gender: {driver.gender}
+            </Typography>
           </Grid>
           <Grid size={4}>
-            <img
-              src={"../../../public/Driver/Male/UnkownMale.png"}
+            <Box
+              component={"img"}
+              src={driver.imageURL}
               alt={driver.firstname}
               width={330}
             />
           </Grid>
           <Grid size={2}>
-            <img
+            <Box
+              component={"img"}
               src={`https://flagcdn.com/${driver.code}.svg`}
               alt={driver.nationality}
               style={{ borderRadius: 6 }}
-              width={"100%"}
+              width={"30%"}
             />
             <Typography variant="subtitle2">{driver.nationality}</Typography>
           </Grid>
         </Grid>
       </Card>
-
-      {/* Info card */}
-      <Card
+      <Grid
+        container
+        spacing={4}
         sx={{
-          marginTop: 1,
-          padding: 1,
-          display: "flex",
-          gap: 2,
-          flexDirection: "column",
+          justifyContent: "space-evenly",
+          alignItems: "flex-start",
         }}
       >
-        <Typography variant="h5" gutterBottom>
-          About {driver.firstname} {driver.lastname}
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Jordan “The Bullet” Hayes is a professional race car driver known for
-          their fearless precision and relentless pursuit of perfection on the
-          track. Starting their career in go-kart racing at the age of 10,
-          Jordan quickly rose through the ranks of junior leagues, earning a
-          reputation for sharp instincts and tactical brilliance. After debuting
-          in the national touring series at just 19, Jordan secured multiple
-          podium finishes in their rookie season — a rare feat that caught the
-          attention of major racing teams. Over the years, they’ve claimed three
-          championship titles, broken several lap-time records, and stood on the
-          podium at some of the world’s most prestigious circuits. Beyond the
-          stats, Jordan is known for their calm under pressure, commitment to
-          teamwork, and continuous push to innovate through data-driven
-          performance tuning. Off the track, they mentor young drivers and
-          advocate for safety and sustainability in motorsport.
-        </Typography>
-      </Card>
-
-      {/* Stats card */}
-      <Card
-        sx={{
-          marginTop: 1,
-          padding: 1,
-          display: "flex",
-          gap: 2,
-          flexDirection: "column",
-        }}
-      >
-        <Typography variant="h5" gutterBottom>
-          Stats
-        </Typography>
-        <Grid container spacing={2}>
-          {[
-            { label: "Wins", icon: <EmojiEventsIcon />, value: 1 },
-            { label: "Podiums", icon: <EmojiEventsIcon />, value: 1 },
-            { label: "Titles", icon: <StarIcon />, value: 1 },
-            { label: "Poles", icon: <LooksOneIcon />, value: 1 },
-            { label: "Points", icon: <LooksOneIcon />, value: 1 },
-            { label: "Race Starts", icon: <SportsScoreIcon />, value: 1 },
-            { label: "Laps Led", icon: <LooksOneIcon />, value: 1 },
-          ].map((stat) => (
-            <Grid size={4} key={stat.label}>
-              <Box display="flex" alignItems="center" gap={1}>
-                {stat.icon}
-                <Typography variant="body1">
-                  {stat.label}: x{stat.value}
-                </Typography>
-              </Box>
-            </Grid>
-          ))}
+        <Grid
+          size={8}
+          sx={{
+            p: 1,
+          }}
+        >
+          <Typography variant="h2" gutterBottom color="text.primary">
+            About {driver.firstname} {driver.middleName} {driver.lastname}
+          </Typography>
+          <Box
+            sx={(theme) => ({
+              ...theme.typography.body1,
+              color: "text.primary",
+              whiteSpace: "pre-line",
+            })}
+          >
+            {driver.description}
+          </Box>
         </Grid>
-      </Card>
+        <Grid
+          size={4}
+          sx={{
+            backgroundImage: `url(/DRSPIC.webp)`,
+            backgroundBlendMode: "multiply",
+            backgroundColor: driver.colour ?? "#ca0500",
+            backgroundSize: "200% 200%",
+            backgroundPosition: "20% 0%",
+            p: 1,
+            borderRadius: 1,
+          }}
+        >
+          <Typography variant="h2" color="text.primary">
+            Stats
+          </Typography>
+
+          <Grid container spacing={2}>
+            <Grid size={6} sx={{ borderRight: "solid #ffffffff" }}>
+              <Typography color="text.primary">
+                <EmojiEventsIcon />
+                Wins
+              </Typography>
+              <Typography variant="h3" color="text.primary">
+                x {driver.raceWins}
+              </Typography>
+            </Grid>
+            <Grid size={6}>
+              <Typography color="text.primary">
+                <EmojiEventsIcon />
+                Podiums
+              </Typography>
+              <Typography variant="h3" color="text.primary">
+                x {driver.racePodiums}
+              </Typography>
+            </Grid>
+            <Grid size={6} sx={{ borderRight: "solid #ffffffff" }}>
+              <Typography color="text.primary">
+                <StarIcon />
+                Titles
+              </Typography>
+              <Typography variant="h3" color="text.primary">
+                x {driver.championshipTitles}
+              </Typography>
+            </Grid>
+            <Grid size={6}>
+              <Typography color="text.primary">
+                <LooksOneIcon />
+                Poles
+              </Typography>
+              <Typography variant="h3" color="text.primary">
+                x {driver.racePole}
+              </Typography>
+            </Grid>
+            <Grid size={6} sx={{ borderRight: "solid #ffffffff" }}>
+              <Typography color="text.primary">
+                <LooksOneIcon />
+                Points
+              </Typography>
+              <Typography variant="h3" color="text.primary">
+                x {driver.careerPoints}
+              </Typography>
+            </Grid>
+            <Grid size={6}>
+              <Typography color="text.primary">
+                <SportsScoreIcon />
+                Races
+              </Typography>
+              <Typography variant="h3" color="text.primary">
+                x {driver.racesParticipated}
+              </Typography>
+            </Grid>
+            <Grid size={6}>
+              <Typography color="text.primary">
+                <LooksOneIcon />
+                Laps
+              </Typography>
+              <Typography variant="h3" color="text.primary">
+                x {driver.raceLapsLed}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };

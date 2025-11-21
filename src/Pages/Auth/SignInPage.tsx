@@ -88,10 +88,20 @@ const SignInPage: React.FC = () => {
         variant="outlined"
         sx={{ maxWidth: 480, mx: "auto", mt: 6, p: 4, boxShadow: 3 }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          color="text.secondary"
+        >
           Welcome Back
         </Typography>
-        <Typography variant="subtitle1" align="center" gutterBottom>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          gutterBottom
+          color="text.secondary"
+        >
           Sign in to your account
         </Typography>
 

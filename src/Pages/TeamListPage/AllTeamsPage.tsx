@@ -37,7 +37,7 @@ const AllTeamPage: React.FC = () => {
 
   if (!teams || teams.length === 0) {
     return (
-      <Typography align="center" variant="h5" mt={4}>
+      <Typography align="center" variant="h5" mt={4} color="text.primary">
         No teams available.
       </Typography>
     );
@@ -45,7 +45,7 @@ const AllTeamPage: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h1" align="center">
+      <Typography variant="h1" align="center" color="text.primary">
         Teams {new Date().getFullYear()}
       </Typography>
 
@@ -71,26 +71,38 @@ const AllTeamPage: React.FC = () => {
               justifyContent: "space-between",
               px: 3,
               py: 1,
-              background: "linear-gradient(135deg, #c9d6ff 0%, #e2e2e2 100%)",
+              backgroundImage: `url(/TEAMDRS.webp)`,
+              backgroundRepeat: "no-repeat",
+              backgroundBlendMode: "multiply",
+              WebkitBackgroundSize: "cover",
+              backgroundColor: team.colour ?? "#ca0500",
+              transition: "all 0.6s ease-in-out",
+
+              "&:hover": {
+                backgroundPosition: "140% 0%",
+                boxShadow: 6,
+              },
             }}
           >
             <Grid container alignItems="center" spacing={2}>
               <Grid size={5}>
-                <Typography variant="h4" fontWeight="bold">
+                <Typography variant="h4" fontWeight="bold" color="text.primary">
                   {team.name}
                 </Typography>
-                <Typography variant="subtitle1" color="text.secondary">
-                  Founded: {"N/A"}
+                <Typography variant="subtitle1" color="text.primary">
+                  Founded: {team.yearFounded ?? "N/A"}
                 </Typography>
-                <Typography variant="subtitle1">Drivers: {0}</Typography>
+                <Typography variant="subtitle1" color="text.primary">
+                  Drivers: {team.driverCount}
+                </Typography>
               </Grid>
 
               <Grid size={7} display="flex" justifyContent="center">
-                <img
-                  src={"../../../public/Car/Car1.avif"}
+                <Box
+                  component={"img"}
+                  src={team.imageURL}
                   alt={`${team.name} car`}
-                  width={300}
-                  style={{ borderRadius: 8 }}
+                  width={380}
                 />
               </Grid>
             </Grid>

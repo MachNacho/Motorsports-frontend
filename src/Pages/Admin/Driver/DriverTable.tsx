@@ -5,6 +5,7 @@ import {
   CircularProgress,
   IconButton,
   Snackbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import {
@@ -119,23 +120,6 @@ const DriverTable: React.FC = () => {
       },
       { field: "raceNumber", headerName: "#", width: 90 },
       { field: "gender", headerName: "Gender", width: 90 },
-      {
-        field: "imageURL",
-        headerName: "Image",
-        width: 100,
-        renderCell: (params) => (
-          <img
-            src={params.value}
-            alt="Driver"
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
-        ),
-      },
       { field: "teamId", headerName: "Team ID", flex: 1, minWidth: 200 },
       {
         field: "actions",
@@ -145,18 +129,22 @@ const DriverTable: React.FC = () => {
         getActions: (params) => [
           <GridActionsCellItem
             icon={
-              <IconButton color="primary" size="small">
-                <EditIcon />
-              </IconButton>
+              <Tooltip title="Edit Driver">
+                <IconButton color="primary" size="small">
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
             }
             label="Edit"
             onClick={() => handleEdit(params.row as FullDriverTable)}
           />,
           <GridActionsCellItem
             icon={
-              <IconButton color="error" size="small">
-                <DeleteIcon />
-              </IconButton>
+              <Tooltip title="Delete Driver">
+                <IconButton color="error" size="small">
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
             }
             label="Delete"
             onClick={() => handleDelete(params.id as string)}
@@ -237,7 +225,11 @@ const DriverTable: React.FC = () => {
           sx={{
             borderRadius: 2,
             boxShadow: 2,
-            backgroundColor: "background.paper",
+            color: "Black",
+            "& .MuiDataGrid-columnHeaders": { color: "Black" },
+            "& .MuiDataGrid-cell": { color: "Black" },
+            "& .MuiDataGrid-footerContainer": { color: "Black" },
+            "& .MuiTablePagination-root": { color: "Black" },
           }}
         />
       </Box>

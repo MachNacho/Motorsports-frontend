@@ -16,15 +16,40 @@ import RegisterPage from "./Pages/Auth/RegisterPage";
 import RaceTrackPage from "./Pages/RaceTrackPage/RaceTrackPage";
 import RaceTrackProfilePage from "./Pages/RaceTrackProfilePage/RaceTrackProfilePage";
 import DriverTable from "./Pages/Admin/Driver/DriverTable";
+import "./App.css";
+import FooterBar from "./components/FooterBar";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#930c0cff",
+      main: "#ca0500",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: "#00c7ca",
+    },
+    background: {
+      default: "#34343b",
+    },
+    info: {
+      main: "#ccccd4",
+    },
+    text: {
+      primary: "#ffffffff",
+      secondary: "#000000ff",
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1636,
     },
   },
   typography: {
-    fontFamily: "Formula1",
+    fontFamily: "Stack Sans Notch",
   },
 });
 
@@ -42,13 +67,13 @@ function App() {
             <Route path="/TrackModel" element={<ModelViewPage />} />
             <Route path="/Teams" element={<AllTeamPage />} />
             <Route path="/Team/:ID" element={<TeamProfilePage />} />
-            <Route path="/Nation/stats" element={<NationStatsPage />} />
             <Route path="/Tracks" element={<RaceTrackPage />} />
             <Route path="/Track/:ID" element={<RaceTrackProfilePage />} />
             <Route path="/DriverTable" element={<DriverTable />} />
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="/" element={<NotFoundPage />} />
+            <Route path="/" element={<NationStatsPage />} />
           </Routes>
+          <FooterBar />
         </BrowserRouter>
       </Container>
     </ThemeProvider>

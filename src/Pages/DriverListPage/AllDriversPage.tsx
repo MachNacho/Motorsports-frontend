@@ -6,6 +6,7 @@ import {
   CardContent,
   CircularProgress,
   Grid,
+  Pagination,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +14,14 @@ import { driverService } from "../../API/Services/driverService";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
+import { useState } from "react";
+import { PAGE_SIZE } from "../../Constants/constants";
 
 const AllDriversPage: React.FC = () => {
   const navigation = useNavigate();
+
+  // Local UI pagination state
+  const [page, setPage] = useState(1);
 
   const {
     data: drivers,
@@ -53,12 +59,32 @@ const AllDriversPage: React.FC = () => {
       </Typography>
     );
   }
+  // Calculate pagination boundaries:
+  // current slice of tracks to display on screen
+  const startIdx = (page - 1) * PAGE_SIZE;
+  const endIdx = startIdx + PAGE_SIZE;
+  const paginatedDrivers = drivers.slice(startIdx, endIdx);
 
   return (
     <>
-      <Typography variant="h1" align="center">
+      <Typography variant="h1" align="center" color="white">
         Drivers {new Date().getFullYear()}
       </Typography>
+
+      {/* Pagination control */}
+      <Box
+        display="flex"
+        justifyContent="center"
+        mt={4}
+        sx={{ marginBottom: 1 }}
+      >
+        <Pagination
+          count={Math.ceil(drivers.length / PAGE_SIZE)} // total pages
+          page={page} // current page
+          onChange={(_, value) => setPage(value)} // update state
+          color="primary"
+        />
+      </Box>
 
       <Box
         sx={{
@@ -69,52 +95,56 @@ const AllDriversPage: React.FC = () => {
           gap: 3.75,
         }}
       >
-        {drivers.map((driver) => (
+        {paginatedDrivers.map((driver) => (
           <Card
             key={driver.id}
             onClick={() => navigation(`/Driver/${driver.id}`)}
             sx={{
               cursor: "pointer",
-              width: { sm: "100%", md: 476 },
+              width: { sm: "100%", md: 700 },
               height: 256,
-              transition: "all 0.2s ease, box-shadow 0.2s ease",
+              backgroundImage: `url(/DRSPIC.webp)`,
+              backgroundBlendMode: "multiply",
+              backgroundColor: driver.colour ?? "#ca0500",
+              transition: "all 0.4s ease-in-out",
+              backgroundSize: "200% 200%",
               "&:hover": {
-                transform: "scale(1.02)",
-                boxShadow: 6,
-                background: "linear-gradient(135deg, #dfe7fd 0%, #8b1a1a 100%)",
+                backgroundPosition: "100% 0%",
               },
-              background:
-                "linear-gradient(135deg, #bacdfbff 0%, #471e1eff 100%)",
             }}
           >
             <CardContent>
               <Grid container spacing={2}>
                 {/* Left */}
                 <Grid size={7}>
-                  <Typography variant="h5">{driver.firstname}</Typography>
-                  <Typography variant="h5" fontWeight="bold">
+                  <Typography variant="h4" color="white">
+                    {driver.firstname}
+                  </Typography>
+                  <Typography variant="h4" fontWeight="bold" color="white">
                     {driver.lastname}
                   </Typography>
-                  <Typography variant="subtitle2">{driver.teamName}</Typography>
+                  <Typography variant="subtitle2" color="white">
+                    {driver.teamName}
+                  </Typography>
                   <Typography
                     sx={{
                       fontWeight: "bold",
                       fontStyle: "italic",
-                      fontSize: 20,
+                      fontSize: 40,
                     }}
+                    color="white"
                   >
                     # {driver.raceNumber}
                   </Typography>
                 </Grid>
                 {/* Left */}
                 <Grid size={5}>
-                  <Box alignContent={"center"}>
-                    <img
-                      src={"../../../public/Driver/Male/UnkownMale.png"}
-                      alt={driver.firstname}
-                      width={270}
-                    />
-                  </Box>
+                  <Box
+                    component={"img"}
+                    src={driver.imageURL}
+                    alt={driver.firstname}
+                    width={270}
+                  />
                 </Grid>
               </Grid>
             </CardContent>

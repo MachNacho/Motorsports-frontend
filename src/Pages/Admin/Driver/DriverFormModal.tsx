@@ -11,8 +11,10 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  Grid,
   Radio,
   RadioGroup,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -64,15 +66,36 @@ const DriverFormModal: React.FC<DriverFormModalProps> = ({
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth="sm"
+      maxWidth="lg"
       fullWidth
       aria-labelledby="driver-form-title"
     >
-      <DialogTitle>{driver ? "Edit Driver" : "Add New Driver"}</DialogTitle>
-      <Box component="form" onSubmit={onSubmit} noValidate>
-        <DialogContent
-          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
-        >
+      <DialogTitle sx={{ color: "black" }}>
+        {driver ? "Edit Driver" : "Add New Driver"}
+      </DialogTitle>
+      <Box
+        component="form"
+        onSubmit={onSubmit}
+        noValidate
+        sx={{
+          "& *": {
+            color: "black !important",
+          },
+          "& .MuiInputBase-input": {
+            color: "black !important",
+          },
+          "& .MuiFormLabel-root": {
+            color: "black !important",
+          },
+          "& .MuiSvgIcon-root": {
+            color: "black !important",
+          },
+          "& .MuiOutlinedInput-root fieldset": {
+            borderColor: "black !important",
+          },
+        }}
+      >
+        <DialogContent>
           {/* Loading State */}
           {isLoading && (
             <Box display="flex" justifyContent="center" py={2}>
@@ -96,140 +119,208 @@ const DriverFormModal: React.FC<DriverFormModalProps> = ({
             </Alert>
           )}
           {!isLoading && (
-            <>
-              <DriverFormTextField
-                name="firstname"
-                label="First name"
-                type="text"
-                autoComplete="given-name"
-                error={errors.firstname?.message}
-                disabled={mutation.isPending}
-                register={
-                  register as unknown as ReturnType<typeof useForm>["register"]
-                }
-              />
-              <DriverFormTextField
-                name="middleName"
-                label="Middle name"
-                type="text"
-                autoComplete="family-name"
-                error={errors.middleName?.message}
-                disabled={mutation.isPending}
-                register={
-                  register as unknown as ReturnType<typeof useForm>["register"]
-                }
-              />
-              <DriverFormTextField
-                name="lastname"
-                label="Last name"
-                type="text"
-                autoComplete="family-name"
-                error={errors.lastname?.message}
-                disabled={mutation.isPending}
-                register={
-                  register as unknown as ReturnType<typeof useForm>["register"]
-                }
-              />
-              <DriverFormTextField
-                name="imageURL"
-                label="image URL"
-                type="url"
-                autoComplete="url"
-                error={errors.imageURL?.message}
-                disabled={mutation.isPending}
-                register={
-                  register as unknown as ReturnType<typeof useForm>["register"]
-                }
-              />
-              <DriverFormTextField
-                name="birthDate"
-                label="Birth date"
-                type="Date"
-                autoComplete="bday"
-                error={errors.birthDate?.message}
-                disabled={mutation.isPending}
-                register={
-                  register as unknown as ReturnType<typeof useForm>["register"]
-                }
-              />
-              <DriverFormTextField
-                name="raceNumber"
-                label="Race number"
-                type="number"
-                autoComplete="bday"
-                error={errors.raceNumber?.message}
-                disabled={mutation.isPending}
-                register={
-                  register as unknown as ReturnType<typeof useForm>["register"]
-                }
-              />
-              <Controller
-                name="teamId"
-                control={control}
-                render={({ field }) => (
-                  <Autocomplete
-                    {...field}
-                    options={teams ?? []}
-                    getOptionLabel={(option) => option.label ?? ""}
-                    value={teams?.find((t) => t.id === field.value) ?? null}
-                    onChange={(_, value) => field.onChange(value?.id ?? "")}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Teams"
-                        error={!!errors.teamId}
-                        helperText={errors.teamId?.message}
+            <Grid container spacing={2}>
+              <Grid size={3}>
+                <Stack spacing={2}>
+                  <DriverFormTextField
+                    name="firstname"
+                    label="First name"
+                    type="text"
+                    autoComplete="given-name"
+                    error={errors.firstname?.message}
+                    disabled={mutation.isPending}
+                    register={
+                      register as unknown as ReturnType<
+                        typeof useForm
+                      >["register"]
+                    }
+                    multiline={false}
+                  />
+                  <DriverFormTextField
+                    name="middleName"
+                    label="Middle name"
+                    type="text"
+                    autoComplete="family-name"
+                    error={errors.middleName?.message}
+                    disabled={mutation.isPending}
+                    register={
+                      register as unknown as ReturnType<
+                        typeof useForm
+                      >["register"]
+                    }
+                    multiline={false}
+                  />
+                  <DriverFormTextField
+                    name="lastname"
+                    label="Last name"
+                    type="text"
+                    autoComplete="family-name"
+                    error={errors.lastname?.message}
+                    disabled={mutation.isPending}
+                    register={
+                      register as unknown as ReturnType<
+                        typeof useForm
+                      >["register"]
+                    }
+                    multiline={false}
+                  />
+                  <DriverFormTextField
+                    name="birthDate"
+                    label="Birth date"
+                    type="Date"
+                    autoComplete="bday"
+                    error={errors.birthDate?.message}
+                    disabled={mutation.isPending}
+                    register={
+                      register as unknown as ReturnType<
+                        typeof useForm
+                      >["register"]
+                    }
+                    multiline={false}
+                  />
+                </Stack>
+              </Grid>
+
+              <Grid size={3}>
+                <Stack spacing={2}>
+                  {/* <DriverFormTextField
+                    name="imageURL"
+                    label="image URL"
+                    type="url"
+                    autoComplete="url"
+                    error={errors.imageURL?.message}
+                    disabled={mutation.isPending}
+                    register={
+                      register as unknown as ReturnType<
+                        typeof useForm
+                      >["register"]
+                    }
+                  /> */}
+                  <DriverFormTextField
+                    name="raceNumber"
+                    label="Race number"
+                    type="number"
+                    autoComplete="bday"
+                    error={errors.raceNumber?.message}
+                    disabled={mutation.isPending}
+                    register={
+                      register as unknown as ReturnType<
+                        typeof useForm
+                      >["register"]
+                    }
+                    multiline={false}
+                  />
+                  <FormControl component={"fieldset"}>
+                    <FormLabel>Gender</FormLabel>
+                    <Controller
+                      name="gender"
+                      control={control}
+                      render={({ field }) => (
+                        <RadioGroup {...field} row>
+                          {["Male", "Female", "Other"].map((g) => (
+                            <FormControlLabel
+                              key={g}
+                              value={g}
+                              control={<Radio />}
+                              label={g}
+                            />
+                          ))}
+                        </RadioGroup>
+                      )}
+                    />
+                    {errors.gender && (
+                      <Typography sx={{ color: "error" }} variant="body2">
+                        {errors.gender.message}
+                      </Typography>
+                    )}
+                  </FormControl>
+                </Stack>
+              </Grid>
+              <Grid size={6}>
+                <Stack spacing={2}>
+                  <Controller
+                    name="teamId"
+                    control={control}
+                    render={({ field }) => (
+                      <Autocomplete
+                        {...field}
+                        slotProps={{
+                          paper: {
+                            sx: {
+                              backgroundColor: "white",
+                              color: "black",
+                              "& .MuiAutocomplete-option": {
+                                color: "black",
+                              },
+                            },
+                          },
+                        }}
+                        options={teams ?? []}
+                        getOptionLabel={(option) => option.label ?? ""}
+                        value={teams?.find((t) => t.id === field.value) ?? null}
+                        onChange={(_, value) => field.onChange(value?.id ?? "")}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Teams"
+                            error={!!errors.teamId}
+                            helperText={errors.teamId?.message}
+                          />
+                        )}
                       />
                     )}
                   />
-                )}
-              />
-              <Controller
-                name="nationalityId"
-                control={control}
-                render={({ field }) => (
-                  <Autocomplete
-                    {...field}
-                    options={nations ?? []}
-                    getOptionLabel={(option) => option.label ?? ""}
-                    value={nations?.find((n) => n.id === field.value) ?? null}
-                    onChange={(_, value) => field.onChange(value?.id ?? "")}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Nations"
-                        error={!!errors.nationalityId}
-                        helperText={errors.nationalityId?.message}
+                  <Controller
+                    name="nationalityId"
+                    control={control}
+                    render={({ field }) => (
+                      <Autocomplete
+                        {...field}
+                        slotProps={{
+                          paper: {
+                            sx: {
+                              backgroundColor: "white",
+                              color: "black",
+                              "& .MuiAutocomplete-option": {
+                                color: "black",
+                              },
+                            },
+                          },
+                        }}
+                        options={nations ?? []}
+                        getOptionLabel={(option) => option.label ?? ""}
+                        value={
+                          nations?.find((n) => n.id === field.value) ?? null
+                        }
+                        onChange={(_, value) => field.onChange(value?.id ?? "")}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Nations"
+                            error={!!errors.nationalityId}
+                            helperText={errors.nationalityId?.message}
+                          />
+                        )}
                       />
                     )}
                   />
-                )}
-              />
-              <FormControl component={"fieldset"}>
-                <FormLabel>Gender</FormLabel>
-                <Controller
-                  name="gender"
-                  control={control}
-                  render={({ field }) => (
-                    <RadioGroup {...field} row>
-                      {["Male", "Female", "Other"].map((g) => (
-                        <FormControlLabel
-                          key={g}
-                          value={g}
-                          control={<Radio />}
-                          label={g}
-                        />
-                      ))}
-                    </RadioGroup>
-                  )}
-                />
-                {errors.gender && (
-                  <Typography sx={{ color: "error" }} variant="body2">
-                    {errors.gender.message}
-                  </Typography>
-                )}
-              </FormControl>
-            </>
+                  <DriverFormTextField
+                    name="description"
+                    label="Description"
+                    type="Multiline"
+                    autoComplete="bday"
+                    error={errors.raceNumber?.message}
+                    disabled={mutation.isPending}
+                    register={
+                      register as unknown as ReturnType<
+                        typeof useForm
+                      >["register"]
+                    }
+                    multiline={true}
+                  />
+                </Stack>
+              </Grid>
+            </Grid>
           )}
         </DialogContent>
 
@@ -242,7 +333,9 @@ const DriverFormModal: React.FC<DriverFormModalProps> = ({
             Cancel
           </Button>
           <Button
+            loading={mutation.isPending?true:false}
             type="submit"
+            sx={{ color: "white" }}
             disabled={mutation.isPending}
             variant="contained"
             color="primary"

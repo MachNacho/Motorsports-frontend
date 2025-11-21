@@ -6,7 +6,7 @@ export const driverFormSchema = z.object({
   lastname: z.string(),
   birthDate: z.iso.date(),
   nationalityId: z.string(),
-  imageURL: z.url().optional(),
+  description: z.string(),
   gender: z.string(),
   raceNumber: z.string(),
   teamId: z.string(),

@@ -5,7 +5,7 @@ export interface FullDriverTable {
   lastname: string;
   birthDate: string;
   nationalityId: string;
-  imageURL: string;
+  description: string;
   gender: string;
   raceNumber: string;
   teamId: string;

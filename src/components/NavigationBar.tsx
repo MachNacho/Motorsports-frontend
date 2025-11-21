@@ -15,7 +15,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "space-between",
   flexShrink: 0,
-  borderRadius: theme.spacing(1.5),
+  borderRadius: theme.spacing(1),
   backdropFilter: "blur(24px)",
   border: "1px solid",
   borderColor: (theme.vars || theme).palette.divider,
@@ -30,14 +30,12 @@ const NAV_ITEMS = [
   { label: "Drivers", to: "/Driver/List" },
   { label: "Teams", to: "/Teams" },
   { label: "3D Track Model", to: "/TrackModel" },
-  { label: "Nations", to: "/Nation/stats" },
   { label: "Circuits", to: "/Tracks" },
 ];
 
 export function NavigationBar() {
   const location = useLocation();
-  const { user, isAuthenticated, logout } = useAuth();
-  console.log(user?.email);
+  const { isAuthenticated, logout } = useAuth();
   return (
     <AppBar
       position="relative"

@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { trackService } from "../../API/Services/trackService";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
-import { Box, Card, CircularProgress, Grid, Typography } from "@mui/material";
+import { Box, Chip, CircularProgress, Grid, Typography } from "@mui/material";
+import { calculateTrackUnits } from "./functions/ExcpectedLaps";
 
 const RaceTrackProfilePage: React.FC = () => {
   const { ID } = useParams<{ ID: string }>();
@@ -41,80 +42,136 @@ const RaceTrackProfilePage: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
+      <Typography
+        variant="h1"
+        align="center"
+        fontWeight="bold"
+        gutterBottom
+        color="text.primary"
+      >
         {track.name}
       </Typography>
-      <Card
+      <Typography variant="h4" align="center" gutterBottom color="text.primary">
+        {track.location}, {track.nationName}
+      </Typography>
+      <Box
+        component={"img"}
+        src={`https://flagcdn.com/${track.nationCode}.svg`}
+        sx={{ width: "5%", margin: "auto", display: "block" }}
+      />
+      <Box
         sx={{
-          height: 150,
-          p: 2,
-          mb: 2,
+          width: "100%",
+          height: 3,
+          borderRadius: 1,
+          background: "linear-gradient(90deg, #ff0000ff, #ffffffff)",
+          mt: 1,
         }}
-      >
-        <Grid container sx={{ height: "100%" }} spacing={1}>
-          <Grid size={4} sx={{ height: "100%" }}>
-            <Typography fontWeight="bold">Track stats</Typography>
-            <Typography>Legth used: {track.length}</Typography>
-            <Typography>Track direction: {track.direction}</Typography>
-            <Typography>
-              Location: {track.location}, {track.nationName}
+      />
+      <Box sx={{ m: 1, spacing: 1 }}>
+        <Typography variant="h5" color="text.primary">
+          Grand-prix names:
+        </Typography>
+        {track.grandPrixNames.map((name, index) => (
+          <Chip
+            sx={{ m: 1, spacing: 1 }}
+            key={index}
+            label={name}
+            variant="outlined"
+          />
+        ))}
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          height: 3,
+          borderRadius: 1,
+          background: "linear-gradient(90deg, #ff0000ff, #ffffffff)",
+          mt: 1,
+        }}
+      />
+      <Grid container sx={{ marginTop: 2 }}>
+        <Grid size={7}>
+          <Box>
+            <Typography variant="h5" color="text.primary">
+              Track Map
             </Typography>
-            <Typography>Type: {track.type}</Typography>
-            {}
-          </Grid>
-          <Grid size={4} sx={{ height: "100%" }}>
-            <Typography fontWeight="bold">Grand prix names</Typography>
-            {track.grandPrixNames.map((name, index) => (
-              <Typography key={index}>{name}</Typography>
-            ))}
-          </Grid>
-          <Grid size={4} sx={{ height: "100%" }}>
             <Box
-              component="img"
-              src={`https://flagcdn.com/${track.nationCode}.svg`}
-              alt={track.nationName}
-              sx={{ height: "80%" }}
+              component={"img"}
+              sx={{ width: track.imageURL ? "90%" : "50%" }}
+              src={track.imageURL ?? "/NoImage.png"}
             />
-            <Typography>{track.nationName}</Typography>
-          </Grid>
+          </Box>
         </Grid>
-      </Card>
-      <Card
-        sx={{
-          height: "100%",
-          p: 2,
-          mb: 2,
-        }}
-      >
-        <Grid
-          container
-          sx={{
-            justifyContent: "space-evenly",
-            alignItems: "flex-start",
-          }}
+
+        <Grid size={5} sx={{ borderLeft: " solid", p: 2 }}>
+          <Box sx={{ display: "flex" }}>
+            <Grid container spacing={5}>
+              <Grid size={12} sx={{ borderBottom: " solid", p: 2 }}>
+                <Typography color="text.primary">Length</Typography>
+                <Typography variant="h4" color="text.primary">
+                  {track.length}
+                </Typography>
+              </Grid>
+              <Grid size={12} sx={{ borderBottom: " solid", p: 2 }}>
+                <Typography color="text.primary">Type</Typography>
+                <Typography variant="h4" color="text.primary">
+                  {track.type}
+                </Typography>
+              </Grid>
+              <Grid size={6} sx={{ borderRight: " solid", p: 2 }}>
+                <Typography color="text.primary">Direction</Typography>
+                <Typography variant="h4" color="text.primary">
+                  {track.direction}
+                </Typography>
+              </Grid>
+              <Grid size={6} sx={{ borderLeft: "0px solid", p: 2 }}>
+                <Typography color="text.primary">Turns</Typography>
+                <Typography variant="h4" color="text.primary">
+                  {track.turns}
+                </Typography>
+              </Grid>
+              <Grid size={12} sx={{ borderTop: "solid", p: 2 }}>
+                <Typography color="text.primary">Expected laps *</Typography>
+                <Typography variant="h4" color="text.primary">
+                  {calculateTrackUnits(track.length, track.name)}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
+      </Grid>
+
+      {/*Track Description */}
+      <Box>
+        <Typography variant="h5" color="text.primary">
+          About the track
+        </Typography>
+        <Box
+          sx={(theme) => ({
+            ...theme.typography.body1,
+            color: "text.primary",
+            whiteSpace: "pre-line",
+            mt: 2,
+          })}
         >
-          <Grid size={6} spacing={2}>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
-              Track map
-            </Typography>
-            <img
-              src={track.imageURL ? track.imageURL : "/NoImage.png"}
-              style={{ borderRadius: 6, border: "solid" }}
-              width={track.imageURL ? "90%" : "50%"}
-            />
-          </Grid>
-          <Grid size={6}>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
-              Description
-            </Typography>
-            <Typography gutterBottom>
-              {track.description
-                ? track.description
-                : "No description provided"}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Card>
+          {track.description ?? "No description provided"}
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          height: 3,
+          borderRadius: 1,
+          background: "linear-gradient(90deg, #000000ff, #000000ff)",
+          mt: 1,
+        }}
+      />
+      <Typography color="text.primary" sx={{ mt: 5 }}>
+        * Based on the 2025 formula 1 regulations, in which a total race
+        distance is a maximum of 305 km, with the sole exception of Monaco which
+        is 260 km
+      </Typography>
     </>
   );
 };

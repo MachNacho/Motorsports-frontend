@@ -11,6 +11,7 @@ interface FormTextFieldProps {
   register: ReturnType<typeof useForm>["register"];
   error?: string;
   disabled: boolean;
+  multiline: boolean;
 }
 
 const DriverFormTextField: React.FC<FormTextFieldProps> = ({
@@ -21,6 +22,7 @@ const DriverFormTextField: React.FC<FormTextFieldProps> = ({
   autoComplete,
   error,
   disabled,
+  multiline,
 }) => (
   <FormControl fullWidth>
     {/* <FormLabel htmlFor={name}>{label}</FormLabel> */}
@@ -35,6 +37,7 @@ const DriverFormTextField: React.FC<FormTextFieldProps> = ({
       label={label}
       disabled={disabled}
       autoComplete={autoComplete}
+      multiline={multiline}
     />
   </FormControl>
 );
