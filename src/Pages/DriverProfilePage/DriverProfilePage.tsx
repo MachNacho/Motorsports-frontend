@@ -6,6 +6,8 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import StarIcon from "@mui/icons-material/Star";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import SportsScoreIcon from "@mui/icons-material/SportsScore";
+import RotateRightIcon from "@mui/icons-material/RotateRight";
+import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_CONFIG } from "../../Constants/queryConfig";
 import { QUERY_KEYS } from "../../Constants/queryKeys";
@@ -189,7 +191,7 @@ const DriverProfilePage: React.FC = () => {
             <Grid size={6} sx={{ borderRight: "solid #ffffffff" }}>
               <Typography color="text.primary">
                 <EmojiEventsIcon />
-                Wins
+                Career Wins
               </Typography>
               <Typography variant="h3" color="text.primary">
                 x {driver.raceWins}
@@ -198,7 +200,7 @@ const DriverProfilePage: React.FC = () => {
             <Grid size={6}>
               <Typography color="text.primary">
                 <EmojiEventsIcon />
-                Podiums
+                Career Podiums
               </Typography>
               <Typography variant="h3" color="text.primary">
                 x {driver.racePodiums}
@@ -207,7 +209,7 @@ const DriverProfilePage: React.FC = () => {
             <Grid size={6} sx={{ borderRight: "solid #ffffffff" }}>
               <Typography color="text.primary">
                 <StarIcon />
-                Titles
+                Career Titles
               </Typography>
               <Typography variant="h3" color="text.primary">
                 x {driver.championshipTitles}
@@ -216,7 +218,7 @@ const DriverProfilePage: React.FC = () => {
             <Grid size={6}>
               <Typography color="text.primary">
                 <LooksOneIcon />
-                Poles
+                Career Poles
               </Typography>
               <Typography variant="h3" color="text.primary">
                 x {driver.racePole}
@@ -224,8 +226,8 @@ const DriverProfilePage: React.FC = () => {
             </Grid>
             <Grid size={6} sx={{ borderRight: "solid #ffffffff" }}>
               <Typography color="text.primary">
-                <LooksOneIcon />
-                Points
+                <ScoreboardIcon />
+                Points this season
               </Typography>
               <Typography variant="h3" color="text.primary">
                 x {driver.careerPoints}
@@ -234,7 +236,7 @@ const DriverProfilePage: React.FC = () => {
             <Grid size={6}>
               <Typography color="text.primary">
                 <SportsScoreIcon />
-                Races
+                Career Races
               </Typography>
               <Typography variant="h3" color="text.primary">
                 x {driver.racesParticipated}
@@ -242,8 +244,8 @@ const DriverProfilePage: React.FC = () => {
             </Grid>
             <Grid size={6}>
               <Typography color="text.primary">
-                <LooksOneIcon />
-                Laps
+                <RotateRightIcon />
+                Career Laps led
               </Typography>
               <Typography variant="h3" color="text.primary">
                 x {driver.raceLapsLed}

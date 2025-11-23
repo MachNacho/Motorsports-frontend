@@ -23,6 +23,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useMemo, useState, useCallback } from "react";
 import type { FullDriverTable } from "../../../types/Driver/FullDriverTable";
 import DriverFormModal from "./DriverFormModal";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 const DriverTable: React.FC = () => {
   const queryClient = useQueryClient();
@@ -113,14 +115,24 @@ const DriverTable: React.FC = () => {
         width: 120,
       },
       {
-        field: "nationalityId",
-        headerName: "nationality ID",
+        field: "nationName",
+        headerName: "nationalityName",
         flex: 1,
         minWidth: 200,
       },
+      {
+        field: "description",
+        headerName: "Description",
+        renderCell: (params) =>
+          params.value && params.value.trim().length > 0 ? (
+            <CheckIcon color="success" />
+          ) : (
+            <CloseIcon color="error" />
+          ),
+      },
       { field: "raceNumber", headerName: "#", width: 90 },
       { field: "gender", headerName: "Gender", width: 90 },
-      { field: "teamId", headerName: "Team ID", flex: 1, minWidth: 200 },
+      { field: "teamName", headerName: "Team", flex: 1, minWidth: 200 },
       {
         field: "actions",
         headerName: "Actions",
@@ -230,6 +242,14 @@ const DriverTable: React.FC = () => {
             "& .MuiDataGrid-cell": { color: "Black" },
             "& .MuiDataGrid-footerContainer": { color: "Black" },
             "& .MuiTablePagination-root": { color: "Black" },
+            "& .MuiList-root": { color: "Black" },
+            "& .MuiDataGrid-menuPaper": {
+              backgroundColor: "black",
+              color: "black",
+            },
+            "& .MuiMenuItem-root": {
+              color: "black",
+            },
           }}
         />
       </Box>

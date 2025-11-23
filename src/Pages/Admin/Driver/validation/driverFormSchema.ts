@@ -10,5 +10,12 @@ export const driverFormSchema = z.object({
   gender: z.string(),
   raceNumber: z.string(),
   teamId: z.string(),
+  racesParticipated: z.string(),
+  racePodiums: z.string(),
+  raceWins: z.string(),
+  championshipTitles: z.string(),
+  racePole: z.string(),
+  careerPoints: z.string(),
+  raceLapsLed: z.string(),
 });
 export type driverFormSchemaType = z.infer<typeof driverFormSchema>;

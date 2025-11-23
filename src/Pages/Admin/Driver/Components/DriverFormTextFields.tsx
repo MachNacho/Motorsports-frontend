@@ -5,13 +5,16 @@ import { FormControl, TextField } from "@mui/material";
 
 interface FormTextFieldProps {
   name: keyof driverFormSchemaType;
-  label: string;
+  label?: string;
   type?: string;
   autoComplete: string;
   register: ReturnType<typeof useForm>["register"];
   error?: string;
   disabled: boolean;
   multiline: boolean;
+  maxHeight?: number;
+  backgroundColor?: string;
+  maxCharacters?: number;
 }
 
 const DriverFormTextField: React.FC<FormTextFieldProps> = ({
@@ -23,6 +26,9 @@ const DriverFormTextField: React.FC<FormTextFieldProps> = ({
   error,
   disabled,
   multiline,
+  maxHeight,
+  backgroundColor = "transparent",
+  maxCharacters,
 }) => (
   <FormControl fullWidth>
     {/* <FormLabel htmlFor={name}>{label}</FormLabel> */}
@@ -33,11 +39,19 @@ const DriverFormTextField: React.FC<FormTextFieldProps> = ({
       error={!!error}
       helperText={error}
       variant="outlined"
-      slotProps={{ inputLabel: { shrink: true } }}
+      slotProps={{
+        inputLabel: { shrink: true },
+        input: { max: maxCharacters },
+      }}
       label={label}
       disabled={disabled}
       autoComplete={autoComplete}
       multiline={multiline}
+      sx={{
+        maxHeight: multiline && maxHeight ? maxHeight : "auto",
+        overflow: multiline && maxHeight ? "scroll" : "visible",
+        backgroundColor: backgroundColor || "transparent",
+      }}
     />
   </FormControl>
 );

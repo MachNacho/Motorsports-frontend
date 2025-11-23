@@ -18,6 +18,7 @@ import RaceTrackProfilePage from "./Pages/RaceTrackProfilePage/RaceTrackProfileP
 import DriverTable from "./Pages/Admin/Driver/DriverTable";
 import "./App.css";
 import FooterBar from "./components/FooterBar";
+import LandingPage from "./Pages/LandingPage/LandingPage";
 
 const theme = createTheme({
   palette: {
@@ -30,6 +31,7 @@ const theme = createTheme({
     },
     background: {
       default: "#34343b",
+      paper: "#bab9b9ff",
     },
     info: {
       main: "#ccccd4",
@@ -66,12 +68,13 @@ function App() {
             <Route path="/Driver/List" element={<AllDriversPage />} />
             <Route path="/TrackModel" element={<ModelViewPage />} />
             <Route path="/Teams" element={<AllTeamPage />} />
+            <Route path="/Nations" element={<NationStatsPage />} />
             <Route path="/Team/:ID" element={<TeamProfilePage />} />
             <Route path="/Tracks" element={<RaceTrackPage />} />
             <Route path="/Track/:ID" element={<RaceTrackProfilePage />} />
             <Route path="/DriverTable" element={<DriverTable />} />
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="/" element={<NationStatsPage />} />
+            <Route path="/" element={<LandingPage />} />
           </Routes>
           <FooterBar />
         </BrowserRouter>

@@ -72,17 +72,6 @@ const TeamProfilePage: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <Grid size={2}>
-            <Box
-              component={"img"}
-              sx={{
-                width: "60%",
-                borderRadius: 6,
-              }}
-              src={`/logo3.avif`}
-              alt={team.teamName}
-            />
-          </Grid>
           <Grid size={9}>
             <Box
               component={"img"}
@@ -192,7 +181,11 @@ const TeamProfilePage: React.FC = () => {
                 >
                   <Grid container alignItems="center" spacing={2}>
                     <Grid size={10}>
-                      <Typography variant="h5" fontStyle={"italic"} fontWeight="bold">
+                      <Typography
+                        variant="h5"
+                        fontStyle={"italic"}
+                        fontWeight="bold"
+                      >
                         {driver.firstname} {driver.lasstname}
                       </Typography>
                     </Grid>

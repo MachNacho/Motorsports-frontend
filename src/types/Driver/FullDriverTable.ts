@@ -5,8 +5,17 @@ export interface FullDriverTable {
   lastname: string;
   birthDate: string;
   nationalityId: string;
+  nationName: string;
   description: string;
   gender: string;
   raceNumber: string;
   teamId: string;
+  teamName: string;
+  racesParticipated: number;
+  racePodiums: number;
+  raceWins: number;
+  championshipTitles: number;
+  racePole: number;
+  careerPoints: number;
+  raceLapsLed: number;
 }
