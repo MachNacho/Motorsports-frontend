@@ -45,7 +45,7 @@ const AllTeamPage: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h1" align="center" color="text.primary">
+      <Typography variant="h3" align="center" color="text.primary">
         Teams {new Date().getFullYear()}
       </Typography>
 

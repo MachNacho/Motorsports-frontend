@@ -26,6 +26,7 @@ const ModelViewPage: React.FC = () => {
         component="h1"
         variant="h4"
         sx={{ margin: "20px", width: "100%", textAlign: "center" }}
+        color="text.primary"
       >
         Track Viewer
       </Typography>

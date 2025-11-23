@@ -62,7 +62,7 @@ const RaceTrackPage: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h1" align="center" gutterBottom color="text.primary">
+      <Typography variant="h3" align="center" gutterBottom color="text.primary">
         Circuts
       </Typography>
 

@@ -33,35 +33,35 @@ const FooterBar: React.FC = () => {
 
         {/* Links */}
         <Stack spacing={1}>
-          <Typography variant="subtitle2" fontWeight="bold">
+          <Typography variant="subtitle1" fontWeight="bold">
             Quick Links
           </Typography>
 
-          <Link href="/about" color="grey.300" underline="hover">
-            About
+          <Link href="/" color="grey.300" underline="hover">
+            <Typography variant="subtitle2">Home</Typography>
           </Link>
           <Link href="/teams" color="grey.300" underline="hover">
-            Teams
+            <Typography variant="subtitle2">Teams</Typography>
           </Link>
-          <Link href="/contact" color="grey.300" underline="hover">
-            Contact
+          <Link href="/TrackModel" color="grey.300" underline="hover">
+            <Typography variant="subtitle2">3D Model</Typography>
           </Link>
         </Stack>
 
         {/* Socials */}
         <Stack spacing={1}>
-          <Typography variant="subtitle2" fontWeight="bold">
+          <Typography variant="subtitle1" fontWeight="bold">
             Follow Us
           </Typography>
 
           <Link href="#" color="grey.300" underline="hover">
-            Instagram
+            <Typography variant="subtitle2">Instagram</Typography>
           </Link>
           <Link href="#" color="grey.300" underline="hover">
-            Facebook
+            <Typography variant="subtitle2">Facebook</Typography>
           </Link>
           <Link href="#" color="grey.300" underline="hover">
-            Twitter
+            <Typography variant="subtitle2">Reddit</Typography>
           </Link>
         </Stack>
       </Stack>

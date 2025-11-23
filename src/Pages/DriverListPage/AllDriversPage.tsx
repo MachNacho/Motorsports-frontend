@@ -67,7 +67,7 @@ const AllDriversPage: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h1" align="center" color="white">
+      <Typography variant="h3" align="center" color="white">
         Drivers {new Date().getFullYear()}
       </Typography>
 
