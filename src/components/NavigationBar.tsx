@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import logo1 from "../assets/Colour.png";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -35,7 +36,7 @@ const NAV_ITEMS = [
 
 export function NavigationBar() {
   const location = useLocation();
-  const { isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   return (
     <AppBar
       position="relative"
@@ -48,6 +49,22 @@ export function NavigationBar() {
     >
       <Container maxWidth="xl">
         <StyledToolbar variant="dense" disableGutters>
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            <Button
+              component={RouterLink}
+              to={"/"}
+              sx={{
+                color: "info.main",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  color: "none",
+                },
+              }}
+            >
+              <img src={logo1} width={100} />
+            </Button>
+          </Box>
           {/* Nav Buttons */}
           <Box sx={{ display: "flex", gap: 4 }}>
             {NAV_ITEMS.map((item) => (
@@ -98,16 +115,17 @@ export function NavigationBar() {
             ) : (
               <>
                 <Button component={RouterLink} to="/DriverTable">
-                  Dashboard
+                  Edit Driver
                 </Button>
                 <Button
                   component={RouterLink}
                   to="/Signin"
                   variant="outlined"
                   onClick={logout}
-                  sx={{ ml: 2 }}
+                  sx={{ ml: 2, gap: 1 }}
                 >
-                  Logout
+                  <Box>Logout:</Box>
+                  {user?.email}
                 </Button>
               </>
             )}
