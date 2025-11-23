@@ -10,8 +10,15 @@ export const EMPTY_DRIVER_DEFAULTS: driverFormSchemaType = {
   nationalityId: "",
   raceNumber: "0",
   gender: "",
-  imageURL: "",
   teamId: "",
+  raceLapsLed: "0",
+  racePodiums: "0",
+  raceWins: "0",
+  racesParticipated: "0",
+  careerPoints: "0",
+  racePole: "0",
+  championshipTitles: "0",
+  description: "",
 };
 
 export const PAGE_SIZE = 6;
