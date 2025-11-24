@@ -16,3 +16,5 @@ Run npm i to install the packages
 run npm run dev to launch the project
 
 
+## How to use it
+Ensure the backend is running before using the app
