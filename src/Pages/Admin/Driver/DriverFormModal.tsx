@@ -103,21 +103,21 @@ const DriverFormModal: React.FC<DriverFormModalProps> = ({
             </Box>
           )}
 
-          {/* Error State */}
-          {dataError && (
+          {/* Errorz State */}
+          {dataError ? (
             <Alert severity="error">
               Failed to load form data. Please try again.
             </Alert>
-          )}
+          ) : null}
 
           {/* Mutation Error */}
-          {mutation.error && (
+          {mutation.error ? (
             <Alert severity="error" onClose={() => mutation.reset()}>
               {mutation.error instanceof Error
                 ? mutation.error.message
                 : "Failed to save driver. Please try again."}
             </Alert>
-          )}
+          ) : null}
           {!isLoading && (
             <Grid container spacing={2}>
               <Grid size={3}>

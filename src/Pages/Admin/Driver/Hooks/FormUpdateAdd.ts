@@ -3,6 +3,7 @@ import { driverService } from "../../../../API/Services/driverService";
 import { QUERY_KEYS } from "../../../../Constants/queryKeys";
 import type { FullDriverTable } from "../../../../types/Driver/FullDriverTable";
 import type { driverFormSchemaType } from "../validation/driverFormSchema";
+import axios from "axios";
 
 /**
  * Custom hook to manage driver form submission
@@ -28,6 +29,20 @@ export const useDriverFormSubmit = (
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.DRIVERS.LIST });
       onSuccess?.();
       onClose();
+    },
+    onError: (error: unknown) => {
+      let message = "Failed to save driver. Please try again.";
+      if (axios.isAxiosError(error) && error.response) {
+        const { status } = error.response;
+        message =
+          {
+            400: "Invalid driver data",
+            401: "Unauthorized. Please check your credentials.",
+            403: "Access denied. Contact administrator.",
+            404: "Driver not found.",
+            500: "Server error. Try again later.",
+          }[status] ?? `Unexpected error (${status})`;
+      }
     },
   });
 

@@ -125,7 +125,7 @@ export function NavigationBar() {
                   sx={{ ml: 2, gap: 1 }}
                 >
                   <Box>Logout:</Box>
-                  {user?.email}
+                  {user?.name}
                 </Button>
               </>
             )}
